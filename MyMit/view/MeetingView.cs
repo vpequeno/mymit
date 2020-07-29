@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using MyMit.controller;
 using MyMit.custom;
@@ -21,9 +22,6 @@ namespace MyMit.view
         private bool newMeeting = true;
         private bool isRecording = false;
         private int idUser;
-        private WaveIn sourceStream = null;
-        private WaveFileWriter waveWriter = null;
-        private readonly IAudioRecorder recorder;
 
         // Construtor utilizador para novas reunioes
         public MeetingView(int idUser)
@@ -100,7 +98,6 @@ namespace MyMit.view
             loadTasks(tasks); // Carrega lista de tarefas
             this.panelEditMeeting.Visible = true;
 
-            recorder = new AudioRecorder();
         }
 
         private void loadUsersList() 
@@ -572,13 +569,18 @@ namespace MyMit.view
             this.isRecording = true;
 
             // Inicia gravacao
-            recorder.BeginRecording("tet.wav");
-
+            //timer1.Enabled = true;
+            //timer1.Start();
+            record("open new Type waveaudio Alias recsound", "", 0, 0);
+            record("record recsound", "", 0, 0);
 
             // gere disponibilidade dos botoes de gravar e parar
             this.buttonStop.Enabled = true;
             this.buttonRec.Enabled = false;
         }
+
+        [DllImport("winmm.dll", EntryPoint = "mciSendStringA", ExactSpelling = true, CharSet = CharSet.Ansi, SetLastError = true)]
+        private static extern int record(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
@@ -587,7 +589,10 @@ namespace MyMit.view
             this.Enabled = true;
 
             // Para a gravacao de audio
-            recorder.Stop();
+            //timer1.Stop();
+            //timer1.Enabled = false;
+            record("save recsound mic.wav", "", 0, 0);
+            record("close recsound", "", 0, 0);
 
             /*
             // Agurarda ate o fim da transcricao
