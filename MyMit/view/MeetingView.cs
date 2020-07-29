@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MyMit.controller;
 using MyMit.custom;
 using MyMit.model;
 using MyMit.services;
+using NAudio.Wave;
 
 namespace MyMit.view
 {
@@ -22,7 +19,11 @@ namespace MyMit.view
         private List<MeetingInvite> guestList = null;
         private List<User> users = null;
         private bool newMeeting = true;
+        private bool isRecording = false;
         private int idUser;
+        private WaveIn sourceStream = null;
+        private WaveFileWriter waveWriter = null;
+        private readonly IAudioRecorder recorder;
 
         // Construtor utilizador para novas reunioes
         public MeetingView(int idUser)
@@ -54,7 +55,7 @@ namespace MyMit.view
         }
 
         // Este contrutor é utilizado quando queremos carregar o form com uma reuniao ja existente
-        public MeetingView(int idUser, Meeting meeting, List<MeetingInvite> guestList)
+        public MeetingView(int idUser, Meeting meeting, List<UserTask> tasks, List<MeetingInvite> guestList)
         {
             InitializeComponent();
 
@@ -76,27 +77,30 @@ namespace MyMit.view
             this.dateTimePickerStart.Format = DateTimePickerFormat.Custom;
             this.dateTimePickerStart.CustomFormat = "dd/MM/yyyy HH:mm";
 
-
-
             // Load duration options
             loadDuration();
 
             // Carregar categorias para a linkedlist e combobox
             loadTypesList();
 
-            // Carrega valores da meeting
-            this.dateTimePickerStart.Value = this.meeting.startTime;
-            this.textBoxSubject.Text = this.meeting.subject;
-            this.textBoxAgenda.Text = this.meeting.agendaDescription;
-            selectDuration(this.meeting.durationMinutes);
-            selectType(this.meeting.idType);
-            loadUsersWithSelected(guestList); // Carrega users na base de dados e marca os selecioandos
-            this.panelEditMeeting.Visible = true;
-
             // Adiciona a coluna custom de data na grid
             CalendarColumn col = new CalendarColumn();
             int colno = this.dataGridViewTasks.Columns.Add(col);
             this.dataGridViewTasks.Columns[colno].HeaderText = "Deadline";
+
+
+            // Carrega valores da meeting
+            this.dateTimePickerStart.Value = this.meeting.startTime;
+            this.textBoxSubject.Text = this.meeting.subject;
+            this.textBoxAgenda.Text = this.meeting.agendaDescription;
+            this.textBoxMeetingminutes.Text = this.meeting.meetingMinutes;
+            selectDuration(this.meeting.durationMinutes);
+            selectType(this.meeting.idType);
+            loadUsersWithSelected(guestList); // Carrega users na base de dados e marca os selecioandos
+            loadTasks(tasks); // Carrega lista de tarefas
+            this.panelEditMeeting.Visible = true;
+
+            recorder = new AudioRecorder();
         }
 
         private void loadUsersList() 
@@ -191,12 +195,46 @@ namespace MyMit.view
 
                 for (int j = 0; j < guestList.Count; j++)
                 {
-                    if (users.ElementAt(i).id == ((MeetingInvite)guestList.ElementAt(j)).idUser) 
+                    if (users.ElementAt(i).id == ((MeetingInvite)guestList.ElementAt(j)).idUser)
                     {
                         DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)this.dataGridViewGuests.Rows[pos].Cells[1];
                         chk.Value = true;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Carrega Lista de tarefas
+        /// </summary>
+        private void loadTasks(List<UserTask> tasks)
+        {
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                int idx = this.dataGridViewTasks.Rows.Add();
+                this.dataGridViewTasks.Rows[idx].Cells[0].Value = ((UserTask)tasks.ElementAt(i)).Id;
+                this.dataGridViewTasks.Rows[idx].Cells[2].Value = ((UserTask)tasks.ElementAt(i)).Description;
+
+                // Busca a instancia da celula 0 (lista de users)
+                DataGridViewComboBoxCell comboBoxCell = (this.dataGridViewTasks.Rows[idx].Cells[1] as DataGridViewComboBoxCell);
+
+                // Define campos de valor e texto na combobox de users
+                comboBoxCell.DisplayMember = "name";
+                comboBoxCell.ValueMember = "id";
+
+                // Popula a combobox
+                List<User> users = this.users;
+                for (int k = 0; k < users.Count; k++)
+                {
+                    comboBoxCell.Items.Add(users.ElementAt(k));
+                }
+
+
+                // Seleciona o owner da tarefa
+                this.dataGridViewTasks.Rows[idx].Cells[1].Value = ((UserTask)tasks.ElementAt(i)).IdOwner;
+
+                // Seleciona a data
+                ((CalendarCell)this.dataGridViewTasks.Rows[idx].Cells[3]).Value = ((UserTask)tasks.ElementAt(i)).Deadline;
             }
         }
 
@@ -363,6 +401,37 @@ namespace MyMit.view
                 }
             }
 
+            // Mostra o painel de gravaçao
+            this.groupBoxRecord.Visible = true;
+
+            // Gere visibilidad eods botoes
+            this.buttonStart.Enabled = false;
+            this.buttonClose.Enabled = false;
+            this.buttonStopMeeting.Visible = true;
+
+        }
+
+        private void stopMeeting()
+        {
+            // Verifica se a reuniºao está sendo gravada, se sim, para a gravaçao
+            if (this.isRecording)
+            {
+                this.buttonStop.PerformClick();
+            }
+
+            // Bloqueia a lista de convidados
+            //
+            this.dataGridViewGuests.ColumnHeadersVisible = false;
+            this.dataGridViewGuests.Enabled = false;
+
+            // Esconde o painel de gravaçao
+            this.groupBoxRecord.Visible = false;
+
+            // Gere visibilidad eods botoes
+            this.buttonStart.Enabled = false;
+            this.buttonClose.Enabled = true;
+            this.buttonStopMeeting.Visible = false;
+
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
@@ -375,8 +444,8 @@ namespace MyMit.view
         {
             if (validateInsetedData()) // Se todos os campos forem validados com sucesso... cria a reuniao na base de dados
             {
-                if (this.newMeeting) 
-                { 
+                if (this.newMeeting)
+                {
                     // Carrega string com o ID dos convidados para a reuniao, separados por virgula
                     String selectedusersId = "";
                     bool FirstValue = true;
@@ -395,13 +464,58 @@ namespace MyMit.view
                     }
 
                     bool execSucccess = false;
-                    execSucccess = controller.addNewMeeting(((MeetingType)comboBoxType.SelectedItem).id, 1, dateTimePickerStart.Value, Int32.Parse(textBoxMinutes.Text), textBoxSubject.Text, textBoxAgenda.Text, selectedusersId);
+                    execSucccess = controller.addNewMeeting(((MeetingType)comboBoxType.SelectedItem).id, this.idUser, dateTimePickerStart.Value, Int32.Parse(textBoxMinutes.Text), textBoxSubject.Text, textBoxAgenda.Text, selectedusersId);
 
                     if (!execSucccess) // Se houver erro na criaçao, na base de dados, mostramos uma mensagem de erro
                         MessageBox.Show("Error saving the meeting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    else 
+                    else
                     { // reuniao criada com sucesso. Mostra a mensagem e fecha o form de criaçao
                         MessageBox.Show("Meeting created with success!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                }
+                else {
+                    // Carrega string com o ID dos convidados para a reuniao, separados por virgula
+                    String selectedusersId = "";
+                    bool FirstValue = true;
+                    foreach (DataGridViewRow row in this.dataGridViewGuests.Rows)
+                    {
+                        DataGridViewCheckBoxCell chkchecking = row.Cells[1] as DataGridViewCheckBoxCell;
+                        if (Convert.ToBoolean(chkchecking.Value) == true)
+                        {
+                            if (!FirstValue)
+                            {
+                                selectedusersId += ", ";
+                            }
+                            selectedusersId += row.Cells[0].Value;
+                            FirstValue = false;
+                        }
+                    }
+
+                    bool execSucccess = false;
+
+                    // Guarda dados da reuniao
+                    execSucccess = controller.saveMeeting(meeting.id, ((MeetingType)comboBoxType.SelectedItem).id, dateTimePickerStart.Value, Int32.Parse(textBoxMinutes.Text), textBoxSubject.Text, textBoxAgenda.Text, selectedusersId, textBoxMeetingminutes.Text);
+
+
+                    // Remove todas as tarefas e adiciona novamente
+                    execSucccess = controller.removeAllTasks(meeting.id);
+
+                    // Guarda tarefas
+                    for (int i = 0; i < this.dataGridViewTasks.Rows.Count; i++)
+                    {
+                        string taskuser = this.dataGridViewTasks.Rows[i].Cells[1].Value.ToString();
+                        string taskdesc = this.dataGridViewTasks.Rows[i].Cells[2].Value.ToString();
+                        DateTime deadline = (DateTime)this.dataGridViewTasks.Rows[i].Cells[3].Value;
+
+                        execSucccess = controller.addMeetingTask(meeting.id, taskuser, taskdesc, deadline);
+                    }
+
+                    if (!execSucccess) // Se houver erro na criaçao, na base de dados, mostramos uma mensagem de erro
+                        MessageBox.Show("Error saving the meeting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    { // reuniao criada com sucesso. Mostra a mensagem e fecha o form de criaçao
+                        MessageBox.Show("Meeting saved with success!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
                     }
                 }
@@ -452,5 +566,52 @@ namespace MyMit.view
         }
 
 
+        private void buttonRec_Click(object sender, EventArgs e)
+        {
+            // inicia flag para o programa saber que a reuniao esta a ser gravada
+            this.isRecording = true;
+
+            // Inicia gravacao
+            recorder.BeginRecording("tet.wav");
+
+
+            // gere disponibilidade dos botoes de gravar e parar
+            this.buttonStop.Enabled = true;
+            this.buttonRec.Enabled = false;
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            // ALtera o cursor para "waiting" e bloqueia a janela da app
+            this.Cursor = Cursors.WaitCursor;
+            this.Enabled = true;
+
+            // Para a gravacao de audio
+            recorder.Stop();
+
+            /*
+            // Agurarda ate o fim da transcricao
+            while (this.audio_recorder.isLoading())
+                Thread.Sleep(1000);
+ */
+            // ALtera o cursor para a seta normal e desbloqueia a janela da app
+            this.Enabled = true;
+            this.Cursor = Cursors.Default;
+ /*
+            // Escreve o texto transcrito do audio para o respectivo campo no fim do form
+            this.textBoxTranscription.Text = this.audio_recorder.getText();
+            */
+            // Libera o botao start e bloqueia o botao de stop
+            this.buttonStop.Enabled = false;
+            this.buttonRec.Enabled = true;
+
+            // desliga flag para o programa saber que a reuniao nao esta mais a ser gravada
+            this.isRecording = true;
+        }
+
+        private void buttonStopMeeting_Click(object sender, EventArgs e)
+        {
+            stopMeeting();
+        }
     }
 }

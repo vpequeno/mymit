@@ -62,11 +62,45 @@ namespace MyMit.controller
         /// Adiciona uma nova reuniao
         /// </summary>
         /// <returns>
-        /// Retorna uma lista com todos os utilizadores
+        /// True ou False
         /// </returns>
         public bool addNewMeeting(int idType, int idOwner, DateTime start, int duration, String subject, String agenda, String invitedList)
         {
              return databaseService.WriteData("EXEC [dbo].[addMeeting] @idType = " + idType.ToString() + ", @idOwner = " + idOwner.ToString() + ", @startday = N'" + start.ToString("yyyy/MM/dd HH:mm") + "', @duration = " + duration + ", @subject = N'" + subject + "', @agenda = N'" + agenda + "', @inviteList = N'"+ invitedList + "'");
+        }
+
+
+        /// <summary>
+        /// Guarda alteraçoes uma reuniao
+        /// </summary>
+        /// <returns>
+        /// True ou False
+        /// </returns>
+        public bool saveMeeting(int idMeeting, int idType, DateTime start, int duration, String subject, String agenda, String invitedList, String minutes)
+        {
+            return databaseService.WriteData("EXEC [dbo].[saveMeeting] @idMeeting = " + idMeeting.ToString() + ", @idType = " + idType.ToString() + ", @startday = N'" + start.ToString("yyyy/MM/dd HH:mm") + "', @duration = " + duration + ", @subject = N'" + subject + "', @agenda = N'" + agenda + "', @inviteList = N'" + invitedList + "', @minutes = N'" + minutes + "'");
+        }
+
+        /// <summary>
+        /// Remove todas as tarefas de uma reuniao
+        /// </summary>
+        /// <returns>
+        /// True ou False
+        /// </returns>
+        public bool removeAllTasks(int idMeeting)
+        {
+            return databaseService.WriteData("DELETE FROM UserTask WHERE idMeeting = " + idMeeting.ToString());
+        }
+
+        /// <summary>
+        /// Adiciona uma tarefa relacionada com um reuniao
+        /// </summary>
+        /// <returns>
+        /// True ou False
+        /// </returns>
+        public bool addMeetingTask(int idMeeting, string taskOwner, string description, DateTime deadline)
+        {
+            return databaseService.WriteData("INSERT INTO[dbo].[UserTask] ([IdMeeting],[IdOwner],[Description],[Deadline]) VALUES (" + idMeeting.ToString() + "," + taskOwner.ToString() + ", '" + description + "','" + deadline.ToString("yyyy/MM/dd") + "')");
         }
     }
 }

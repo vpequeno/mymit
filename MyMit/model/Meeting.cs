@@ -20,9 +20,11 @@ namespace MyMit.model
         public String signatureFile { get; set; }
         public string audioTranscription { get; set; }
 
+        public int Closed { get; set; }
+
         public Meeting() { }
 
-        public Meeting(int id, int idTType, int ownerId, DateTime startTime, int durationMinutes, string subject, string agendaDescription, string meetingMinutes, string audioFile, string signatureFile, string audioTranscription)
+        public Meeting(int id, int idTType, int ownerId, DateTime startTime, int durationMinutes, string subject, string agendaDescription, string meetingMinutes, string audioFile, string signatureFile, string audioTranscription, int Closed)
         {
             this.id = id;
             this.idType = idType;
@@ -35,6 +37,7 @@ namespace MyMit.model
             this.audioFile = audioFile;
             this.signatureFile = signatureFile;
             this.audioTranscription = audioTranscription;
+            this.Closed = Closed;
         }
 
     }

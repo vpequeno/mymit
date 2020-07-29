@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace MyMit.model
 {
-    class UserTask
+    public class UserTask
     {
-        private int id;
-        private User owner;
-        private String taskDescription;
-        private DateTime deadline;
+        public int Id { get; set; }
+        public int IdMeeting { get; set; }
+        public int IdOwner { get; set; }
+        public string Description { get; set; }
+        public DateTime Deadline { get; set; }
+
+        public UserTask() { }
     }
 }

@@ -57,7 +57,7 @@ namespace MyMit.controller
         /// </returns>
         public List<Meeting> getMeetingList(DateTime dayToFetch)
         {
-            return this.databaseService.GetData<Meeting>("SELECT [ID],[IDType] ,[IDOwner],[StartTime],[DurationMinutes],[Subject],[AgendaDescription],[MeetingMinutes],[AudioFile] ,[AudioTranscription],[SignatureFile] FROM [dbo].[Meeting]  WHERE [StartTime]  BETWEEN CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE) AND DATEADD(DAY, 1, CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE))");
+            return this.databaseService.GetData<Meeting>("SELECT [ID],[IDType] ,[IDOwner],[StartTime],[DurationMinutes],[Subject],[AgendaDescription],[MeetingMinutes],[AudioFile] ,[AudioTranscription],[SignatureFile],[Closed] FROM [dbo].[Meeting]  WHERE [StartTime]  BETWEEN CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE) AND DATEADD(DAY, 1, CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE))");
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace MyMit.controller
         /// </returns>
         public List<Meeting> getMeeting(int meetingId)
         {
-            return this.databaseService.GetData<Meeting>("SELECT [ID],[IDType] ,[IDOwner],[StartTime],[DurationMinutes],[Subject],[AgendaDescription],[MeetingMinutes],[AudioFile] ,[AudioTranscription],[SignatureFile] FROM [dbo].[Meeting]  WHERE [id]="+ meetingId.ToString());
+            return this.databaseService.GetData<Meeting>("SELECT [ID],[IDType] ,[IDOwner],[StartTime],[DurationMinutes],[Subject],[AgendaDescription],[MeetingMinutes],[AudioFile] ,[AudioTranscription],[SignatureFile],[Closed] FROM [dbo].[Meeting]  WHERE [id]=" + meetingId.ToString());
         }
 
         /// <summary>
@@ -86,6 +86,21 @@ namespace MyMit.controller
         public List<MeetingInvite> getMeetingGuests(int meetingId)
         {
             return this.databaseService.GetData<MeetingInvite>("SELECT [Id],[IdMeeting],[IdUser],[Attended] FROM [MyMit].[dbo].[MeetingInvite] WHERE [IdMeeting]=" + meetingId.ToString());
+        }
+
+
+        /// <summary>
+        /// Envia query para execuçao e recebe lista com as tarefas de uma meeting
+        /// </summary>
+        /// <param>
+        /// Inteiro com o ID da meeting
+        /// </param>
+        /// <returns>
+        /// Retorna uma lista com as tarefas associadas a uma reuniao
+        /// </returns>
+        public List<UserTask> getMeetingTasks(int meetingId)
+        {
+            return this.databaseService.GetData<UserTask>("SELECT [Id],[IdMeeting],[IdOwner],[Description],[Deadline] FROM [dbo].[UserTask] WHERE [IdMeeting]=" + meetingId.ToString());
         }
 
     }

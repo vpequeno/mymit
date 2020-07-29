@@ -137,8 +137,9 @@ namespace MyMit
                 int id = Int32.Parse(this.dataGridViewEvents01.SelectedRows[0].Cells[0].Value.ToString());
                 List<Meeting> meetings = controller.getMeeting(id);
                 List<MeetingInvite> guestList = controller.getMeetingGuests(id);
+                List<UserTask> tasks = controller.getMeetingTasks(id);
 
-                _ = new MeetingView(this.userId, meetings.ElementAt(0), guestList).ShowDialog();
+                _ = new MeetingView(this.userId, meetings.ElementAt(0), tasks, guestList).ShowDialog();
             }
         }
 
@@ -149,8 +150,9 @@ namespace MyMit
                 int id = Int32.Parse(this.dataGridViewEvents02.SelectedRows[0].Cells[0].Value.ToString());
                 List<Meeting> meetings = controller.getMeeting(id);
                 List<MeetingInvite> guestList = controller.getMeetingGuests(id);
+                List<UserTask> tasks = controller.getMeetingTasks(id);
 
-                _ = new MeetingView(this.userId, meetings.ElementAt(0), guestList).ShowDialog();
+                _ = new MeetingView(this.userId, meetings.ElementAt(0), tasks, guestList).ShowDialog();
             }
         }
 
@@ -161,8 +163,9 @@ namespace MyMit
                 int id = Int32.Parse(this.dataGridViewEvents03.SelectedRows[0].Cells[0].Value.ToString());
                 List<Meeting> meetings = controller.getMeeting(id);
                 List<MeetingInvite> guestList = controller.getMeetingGuests(id);
+                List<UserTask> tasks = controller.getMeetingTasks(id);
 
-                _ = new MeetingView(this.userId, meetings.ElementAt(0), guestList).ShowDialog();
+                _ = new MeetingView(this.userId, meetings.ElementAt(0), tasks, guestList).ShowDialog();
             }
         }
     }
