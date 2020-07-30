@@ -165,8 +165,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="services\AudioRecognition.cs" />
-    <Compile Include="services\AudioRecorder.cs" />
-    <Compile Include="services\IAudioRecorder.cs" />
     <Compile Include="services\PdfService.cs" />
     <Compile Include="services\RecordingState.cs" />
     <Compile Include="services\SampleAggregator.cs" />

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using MyMit.controller;
 using MyMit.custom;
@@ -569,8 +571,6 @@ namespace MyMit.view
             this.isRecording = true;
 
             // Inicia gravacao
-            //timer1.Enabled = true;
-            //timer1.Start();
             record("open new Type waveaudio Alias recsound", "", 0, 0);
             record("record recsound", "", 0, 0);
 
@@ -589,23 +589,26 @@ namespace MyMit.view
             this.Enabled = true;
 
             // Para a gravacao de audio
-            //timer1.Stop();
-            //timer1.Enabled = false;
-            record("save recsound mic.wav", "", 0, 0);
+            string path = Directory.GetCurrentDirectory();
+
+            record("save recsound meeting_tmp.wav", "", 0, 0);
             record("close recsound", "", 0, 0);
 
-            /*
-            // Agurarda ate o fim da transcricao
-            while (this.audio_recorder.isLoading())
-                Thread.Sleep(1000);
- */
+ 
             // ALtera o cursor para a seta normal e desbloqueia a janela da app
             this.Enabled = true;
             this.Cursor = Cursors.Default;
- /*
+
             // Escreve o texto transcrito do audio para o respectivo campo no fim do form
-            this.textBoxTranscription.Text = this.audio_recorder.getText();
-            */
+            // 
+            AudioRecognition audio_to_text = new AudioRecognition();
+            _ = audio_to_text.convertAudioAsync("meeting_tmp.wav");
+
+            //while (audio_to_text.result_text == null)
+            //    Thread.Sleep(2000);
+
+            this.textBoxTranscription.Text = audio_to_text.result_text;
+
             // Libera o botao start e bloqueia o botao de stop
             this.buttonStop.Enabled = false;
             this.buttonRec.Enabled = true;
