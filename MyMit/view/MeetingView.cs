@@ -21,6 +21,7 @@ namespace MyMit.view
         private Meeting meeting = null;
         private List<MeetingInvite> guestList = null;
         private List<User> users = null;
+        private LoadingDialog loading = new LoadingDialog();
         private bool newMeeting = true;
         private bool isRecording = false;
         private int idUser;
@@ -569,6 +570,8 @@ namespace MyMit.view
         {
             // inicia flag para o programa saber que a reuniao esta a ser gravada
             this.isRecording = true;
+            this.pictureBoxRecord.Visible = true;
+            this.buttonStopMeeting.Enabled = false;
 
             // Inicia gravacao
             record("open new Type waveaudio Alias recsound", "", 0, 0);
@@ -598,20 +601,33 @@ namespace MyMit.view
             // ALtera o cursor para a seta normal e desbloqueia a janela da app
             this.Enabled = true;
             this.Cursor = Cursors.Default;
+            this.pictureBoxRecord.Visible = false;
 
             // Escreve o texto transcrito do audio para o respectivo campo no fim do form
             // 
             AudioRecognition audio_to_text = new AudioRecognition();
-            _ = audio_to_text.convertAudioAsync("meeting_tmp.wav");
 
-            //while (audio_to_text.result_text == null)
-            //    Thread.Sleep(2000);
+            new Thread(async delegate () {
+                await audio_to_text.convertAudioAsync("meeting_tmp.wav");
+            }).Start();
 
-            this.textBoxTranscription.Text = audio_to_text.result_text;
+            new Thread(delegate () {
+                this.Invoke(new MethodInvoker(() => loading.Show(this)));
+
+                while (audio_to_text.result_text == null)
+                    Thread.Sleep(2000);
+
+                this.Invoke(new MethodInvoker(() => this.textBoxTranscription.Text = audio_to_text.result_text));
+
+                this.Invoke(new MethodInvoker(() => loading.Close()));
+
+            }).Start();
+
 
             // Libera o botao start e bloqueia o botao de stop
             this.buttonStop.Enabled = false;
             this.buttonRec.Enabled = true;
+            this.buttonStopMeeting.Enabled = true;
 
             // desliga flag para o programa saber que a reuniao nao esta mais a ser gravada
             this.isRecording = true;

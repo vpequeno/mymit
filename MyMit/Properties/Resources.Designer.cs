@@ -133,6 +133,16 @@ namespace MyMit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap loading {
+            get {
+                object obj = ResourceManager.GetObject("loading", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MyMitLogo {
             get {
                 object obj = ResourceManager.GetObject("MyMitLogo", resourceCulture);
@@ -156,6 +166,16 @@ namespace MyMit.Properties {
         internal static System.Drawing.Bitmap pdfIcon {
             get {
                 object obj = ResourceManager.GetObject("pdfIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap recording {
+            get {
+                object obj = ResourceManager.GetObject("recording", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

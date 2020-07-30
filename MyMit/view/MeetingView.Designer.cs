@@ -68,10 +68,12 @@
             this.buttonStop = new System.Windows.Forms.Button();
             this.groupBoxRecord = new System.Windows.Forms.GroupBox();
             this.buttonStopMeeting = new System.Windows.Forms.Button();
+            this.pictureBoxRecord = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuests)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
             this.panelEditMeeting.SuspendLayout();
             this.groupBoxRecord.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRecord)).BeginInit();
             this.SuspendLayout();
             // 
             // textBoxSubject
@@ -174,13 +176,14 @@
             // 
             // buttonStart
             // 
+            this.buttonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonStart.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.buttonStart.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.buttonStart.FlatAppearance.BorderSize = 2;
             this.buttonStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Beige;
             this.buttonStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Khaki;
             this.buttonStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonStart.Location = new System.Drawing.Point(594, 70);
+            this.buttonStart.Location = new System.Drawing.Point(577, 70);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(52, 23);
             this.buttonStart.TabIndex = 16;
@@ -191,12 +194,13 @@
             // 
             // buttonSave
             // 
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.FlatAppearance.BorderColor = System.Drawing.Color.Green;
             this.buttonSave.FlatAppearance.BorderSize = 2;
             this.buttonSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Green;
             this.buttonSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonSave.Location = new System.Drawing.Point(661, 70);
+            this.buttonSave.Location = new System.Drawing.Point(644, 70);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(52, 23);
             this.buttonSave.TabIndex = 17;
@@ -206,9 +210,10 @@
             // 
             // buttonClose
             // 
+            this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonClose.FlatAppearance.BorderSize = 2;
             this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonClose.Location = new System.Drawing.Point(719, 70);
+            this.buttonClose.Location = new System.Drawing.Point(702, 70);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(52, 23);
             this.buttonClose.TabIndex = 18;
@@ -248,8 +253,9 @@
             this.dataGridViewGuests.MultiSelect = false;
             this.dataGridViewGuests.Name = "dataGridViewGuests";
             this.dataGridViewGuests.RowHeadersVisible = false;
+            this.dataGridViewGuests.RowHeadersWidth = 82;
             this.dataGridViewGuests.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewGuests.Size = new System.Drawing.Size(285, 77);
+            this.dataGridViewGuests.Size = new System.Drawing.Size(367, 77);
             this.dataGridViewGuests.TabIndex = 21;
             // 
             // ColumnId
@@ -264,6 +270,7 @@
             // 
             this.ColumnSelected.FillWeight = 30F;
             this.ColumnSelected.HeaderText = "Invited";
+            this.ColumnSelected.MinimumWidth = 10;
             this.ColumnSelected.Name = "ColumnSelected";
             // 
             // ColumnName
@@ -310,6 +317,7 @@
             this.dataGridViewTasks.MultiSelect = false;
             this.dataGridViewTasks.Name = "dataGridViewTasks";
             this.dataGridViewTasks.RowHeadersVisible = false;
+            this.dataGridViewTasks.RowHeadersWidth = 82;
             this.dataGridViewTasks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewTasks.Size = new System.Drawing.Size(743, 141);
             this.dataGridViewTasks.TabIndex = 25;
@@ -317,6 +325,7 @@
             // ColumnTaskId
             // 
             this.ColumnTaskId.HeaderText = "ID";
+            this.ColumnTaskId.MinimumWidth = 10;
             this.ColumnTaskId.Name = "ColumnTaskId";
             this.ColumnTaskId.Visible = false;
             // 
@@ -434,6 +443,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
@@ -448,7 +458,7 @@
             this.buttonExportPdf.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.buttonExportPdf.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonExportPdf.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonExportPdf.Location = new System.Drawing.Point(318, 171);
+            this.buttonExportPdf.Location = new System.Drawing.Point(400, 171);
             this.buttonExportPdf.Name = "buttonExportPdf";
             this.buttonExportPdf.Size = new System.Drawing.Size(58, 45);
             this.buttonExportPdf.TabIndex = 29;
@@ -484,9 +494,10 @@
             // 
             // groupBoxRecord
             // 
+            this.groupBoxRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxRecord.Controls.Add(this.buttonRec);
             this.groupBoxRecord.Controls.Add(this.buttonStop);
-            this.groupBoxRecord.Location = new System.Drawing.Point(625, 223);
+            this.groupBoxRecord.Location = new System.Drawing.Point(608, 223);
             this.groupBoxRecord.Name = "groupBoxRecord";
             this.groupBoxRecord.Size = new System.Drawing.Size(146, 55);
             this.groupBoxRecord.TabIndex = 32;
@@ -496,6 +507,7 @@
             // 
             // buttonStopMeeting
             // 
+            this.buttonStopMeeting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonStopMeeting.BackColor = System.Drawing.Color.Tomato;
             this.buttonStopMeeting.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.buttonStopMeeting.FlatAppearance.BorderSize = 2;
@@ -503,7 +515,7 @@
             this.buttonStopMeeting.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Khaki;
             this.buttonStopMeeting.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonStopMeeting.ForeColor = System.Drawing.Color.White;
-            this.buttonStopMeeting.Location = new System.Drawing.Point(536, 70);
+            this.buttonStopMeeting.Location = new System.Drawing.Point(519, 70);
             this.buttonStopMeeting.Name = "buttonStopMeeting";
             this.buttonStopMeeting.Size = new System.Drawing.Size(52, 23);
             this.buttonStopMeeting.TabIndex = 33;
@@ -512,13 +524,27 @@
             this.buttonStopMeeting.Visible = false;
             this.buttonStopMeeting.Click += new System.EventHandler(this.buttonStopMeeting_Click);
             // 
+            // pictureBoxRecord
+            // 
+            this.pictureBoxRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxRecord.Image = global::MyMit.Properties.Resources.recording;
+            this.pictureBoxRecord.Location = new System.Drawing.Point(558, 231);
+            this.pictureBoxRecord.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBoxRecord.Name = "pictureBoxRecord";
+            this.pictureBoxRecord.Size = new System.Drawing.Size(46, 40);
+            this.pictureBoxRecord.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxRecord.TabIndex = 34;
+            this.pictureBoxRecord.TabStop = false;
+            this.pictureBoxRecord.Visible = false;
+            // 
             // MeetingView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(781, 531);
+            this.ClientSize = new System.Drawing.Size(790, 460);
             this.ControlBox = false;
+            this.Controls.Add(this.pictureBoxRecord);
             this.Controls.Add(this.buttonStopMeeting);
             this.Controls.Add(this.groupBoxRecord);
             this.Controls.Add(this.buttonExportPdf);
@@ -554,6 +580,7 @@
             this.panelEditMeeting.ResumeLayout(false);
             this.panelEditMeeting.PerformLayout();
             this.groupBoxRecord.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRecord)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -599,5 +626,6 @@
         private System.Windows.Forms.Button buttonStopMeeting;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBoxTranscription;
+        private System.Windows.Forms.PictureBox pictureBoxRecord;
     }
 }
