@@ -30,11 +30,11 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMyMit));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMyMit));
             this.panel1 = new System.Windows.Forms.Panel();
             this.dataGridViewEvents01 = new System.Windows.Forms.DataGridView();
             this.ColId = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,10 +44,18 @@
             this.labelDay01 = new System.Windows.Forms.Label();
             this.labelMonth01 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dataGridViewEvents02 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelWeekDay02 = new System.Windows.Forms.Label();
             this.labelDay02 = new System.Windows.Forms.Label();
             this.labelMonth02 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.dataGridViewEvents03 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelWeekDay03 = new System.Windows.Forms.Label();
             this.labelDay03 = new System.Windows.Forms.Label();
             this.labelMonth03 = new System.Windows.Forms.Label();
@@ -56,25 +64,16 @@
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.buttonAddEvent = new System.Windows.Forms.Button();
-            this.buttonUser = new System.Windows.Forms.Button();
             this.labelYear = new System.Windows.Forms.Label();
             this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
-            this.dataGridViewEvents02 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewEvents03 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents01)).BeginInit();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents02)).BeginInit();
+            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents03)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -201,6 +200,73 @@
             this.panel2.Size = new System.Drawing.Size(202, 246);
             this.panel2.TabIndex = 6;
             // 
+            // dataGridViewEvents02
+            // 
+            this.dataGridViewEvents02.AllowUserToAddRows = false;
+            this.dataGridViewEvents02.AllowUserToDeleteRows = false;
+            this.dataGridViewEvents02.AllowUserToOrderColumns = true;
+            this.dataGridViewEvents02.AllowUserToResizeColumns = false;
+            this.dataGridViewEvents02.AllowUserToResizeRows = false;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.dataGridViewEvents02.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridViewEvents02.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewEvents02.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewEvents02.BackgroundColor = System.Drawing.SystemColors.Info;
+            this.dataGridViewEvents02.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridViewEvents02.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewEvents02.ColumnHeadersVisible = false;
+            this.dataGridViewEvents02.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3});
+            this.dataGridViewEvents02.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridViewEvents02.GridColor = System.Drawing.SystemColors.Info;
+            this.dataGridViewEvents02.Location = new System.Drawing.Point(3, 82);
+            this.dataGridViewEvents02.MultiSelect = false;
+            this.dataGridViewEvents02.Name = "dataGridViewEvents02";
+            this.dataGridViewEvents02.ReadOnly = true;
+            this.dataGridViewEvents02.RowHeadersVisible = false;
+            this.dataGridViewEvents02.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridViewEvents02.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Info;
+            this.dataGridViewEvents02.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.dataGridViewEvents02.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Info;
+            this.dataGridViewEvents02.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.dataGridViewEvents02.RowTemplate.ReadOnly = true;
+            this.dataGridViewEvents02.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewEvents02.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dataGridViewEvents02.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewEvents02.Size = new System.Drawing.Size(196, 161);
+            this.dataGridViewEvents02.TabIndex = 12;
+            this.dataGridViewEvents02.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEvents02_CellClick);
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewTextBoxColumn2.FillWeight = 35.53299F;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Time";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.FillWeight = 104.467F;
+            this.dataGridViewTextBoxColumn3.HeaderText = "Subject";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
             // labelWeekDay02
             // 
             this.labelWeekDay02.AutoSize = true;
@@ -245,6 +311,73 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(202, 246);
             this.panel3.TabIndex = 7;
+            // 
+            // dataGridViewEvents03
+            // 
+            this.dataGridViewEvents03.AllowUserToAddRows = false;
+            this.dataGridViewEvents03.AllowUserToDeleteRows = false;
+            this.dataGridViewEvents03.AllowUserToOrderColumns = true;
+            this.dataGridViewEvents03.AllowUserToResizeColumns = false;
+            this.dataGridViewEvents03.AllowUserToResizeRows = false;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.dataGridViewEvents03.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridViewEvents03.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewEvents03.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewEvents03.BackgroundColor = System.Drawing.SystemColors.Info;
+            this.dataGridViewEvents03.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dataGridViewEvents03.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewEvents03.ColumnHeadersVisible = false;
+            this.dataGridViewEvents03.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6});
+            this.dataGridViewEvents03.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridViewEvents03.GridColor = System.Drawing.SystemColors.Info;
+            this.dataGridViewEvents03.Location = new System.Drawing.Point(2, 82);
+            this.dataGridViewEvents03.MultiSelect = false;
+            this.dataGridViewEvents03.Name = "dataGridViewEvents03";
+            this.dataGridViewEvents03.ReadOnly = true;
+            this.dataGridViewEvents03.RowHeadersVisible = false;
+            this.dataGridViewEvents03.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridViewEvents03.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Info;
+            this.dataGridViewEvents03.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.dataGridViewEvents03.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Info;
+            this.dataGridViewEvents03.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.dataGridViewEvents03.RowTemplate.ReadOnly = true;
+            this.dataGridViewEvents03.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewEvents03.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dataGridViewEvents03.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewEvents03.Size = new System.Drawing.Size(196, 161);
+            this.dataGridViewEvents03.TabIndex = 13;
+            this.dataGridViewEvents03.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEvents03_CellClick);
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Visible = false;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle6;
+            this.dataGridViewTextBoxColumn5.FillWeight = 35.53299F;
+            this.dataGridViewTextBoxColumn5.HeaderText = "Time";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.FillWeight = 104.467F;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Subject";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.ReadOnly = true;
             // 
             // labelWeekDay03
             // 
@@ -355,29 +488,12 @@
             this.buttonAddEvent.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.buttonAddEvent.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.buttonAddEvent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAddEvent.Location = new System.Drawing.Point(634, 3);
+            this.buttonAddEvent.Location = new System.Drawing.Point(704, 3);
             this.buttonAddEvent.Name = "buttonAddEvent";
             this.buttonAddEvent.Size = new System.Drawing.Size(66, 53);
             this.buttonAddEvent.TabIndex = 3;
             this.buttonAddEvent.UseVisualStyleBackColor = false;
             this.buttonAddEvent.Click += new System.EventHandler(this.buttonAddEvent_Click);
-            // 
-            // buttonUser
-            // 
-            this.buttonUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonUser.BackColor = System.Drawing.Color.Transparent;
-            this.buttonUser.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonUser.BackgroundImage")));
-            this.buttonUser.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.buttonUser.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonUser.FlatAppearance.BorderSize = 0;
-            this.buttonUser.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.buttonUser.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.buttonUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonUser.Location = new System.Drawing.Point(706, 3);
-            this.buttonUser.Name = "buttonUser";
-            this.buttonUser.Size = new System.Drawing.Size(66, 53);
-            this.buttonUser.TabIndex = 2;
-            this.buttonUser.UseVisualStyleBackColor = false;
             // 
             // labelYear
             // 
@@ -408,140 +524,6 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "Quick Jump:";
             // 
-            // dataGridViewEvents02
-            // 
-            this.dataGridViewEvents02.AllowUserToAddRows = false;
-            this.dataGridViewEvents02.AllowUserToDeleteRows = false;
-            this.dataGridViewEvents02.AllowUserToOrderColumns = true;
-            this.dataGridViewEvents02.AllowUserToResizeColumns = false;
-            this.dataGridViewEvents02.AllowUserToResizeRows = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dataGridViewEvents02.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridViewEvents02.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridViewEvents02.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewEvents02.BackgroundColor = System.Drawing.SystemColors.Info;
-            this.dataGridViewEvents02.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridViewEvents02.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewEvents02.ColumnHeadersVisible = false;
-            this.dataGridViewEvents02.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2,
-            this.dataGridViewTextBoxColumn3});
-            this.dataGridViewEvents02.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridViewEvents02.GridColor = System.Drawing.SystemColors.Info;
-            this.dataGridViewEvents02.Location = new System.Drawing.Point(3, 82);
-            this.dataGridViewEvents02.MultiSelect = false;
-            this.dataGridViewEvents02.Name = "dataGridViewEvents02";
-            this.dataGridViewEvents02.ReadOnly = true;
-            this.dataGridViewEvents02.RowHeadersVisible = false;
-            this.dataGridViewEvents02.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridViewEvents02.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Info;
-            this.dataGridViewEvents02.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dataGridViewEvents02.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Info;
-            this.dataGridViewEvents02.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dataGridViewEvents02.RowTemplate.ReadOnly = true;
-            this.dataGridViewEvents02.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewEvents02.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridViewEvents02.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewEvents02.Size = new System.Drawing.Size(196, 161);
-            this.dataGridViewEvents02.TabIndex = 12;
-            this.dataGridViewEvents02.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEvents02_CellClick);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn2.DefaultCellStyle = dataGridViewCellStyle4;
-            this.dataGridViewTextBoxColumn2.FillWeight = 35.53299F;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Time";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.FillWeight = 104.467F;
-            this.dataGridViewTextBoxColumn3.HeaderText = "Subject";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            // 
-            // dataGridViewEvents03
-            // 
-            this.dataGridViewEvents03.AllowUserToAddRows = false;
-            this.dataGridViewEvents03.AllowUserToDeleteRows = false;
-            this.dataGridViewEvents03.AllowUserToOrderColumns = true;
-            this.dataGridViewEvents03.AllowUserToResizeColumns = false;
-            this.dataGridViewEvents03.AllowUserToResizeRows = false;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Info;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dataGridViewEvents03.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle5;
-            this.dataGridViewEvents03.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridViewEvents03.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewEvents03.BackgroundColor = System.Drawing.SystemColors.Info;
-            this.dataGridViewEvents03.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dataGridViewEvents03.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewEvents03.ColumnHeadersVisible = false;
-            this.dataGridViewEvents03.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn4,
-            this.dataGridViewTextBoxColumn5,
-            this.dataGridViewTextBoxColumn6});
-            this.dataGridViewEvents03.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridViewEvents03.GridColor = System.Drawing.SystemColors.Info;
-            this.dataGridViewEvents03.Location = new System.Drawing.Point(2, 82);
-            this.dataGridViewEvents03.MultiSelect = false;
-            this.dataGridViewEvents03.Name = "dataGridViewEvents03";
-            this.dataGridViewEvents03.ReadOnly = true;
-            this.dataGridViewEvents03.RowHeadersVisible = false;
-            this.dataGridViewEvents03.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridViewEvents03.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.SystemColors.Info;
-            this.dataGridViewEvents03.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dataGridViewEvents03.RowTemplate.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Info;
-            this.dataGridViewEvents03.RowTemplate.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.dataGridViewEvents03.RowTemplate.ReadOnly = true;
-            this.dataGridViewEvents03.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewEvents03.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridViewEvents03.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewEvents03.Size = new System.Drawing.Size(196, 161);
-            this.dataGridViewEvents03.TabIndex = 13;
-            this.dataGridViewEvents03.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewEvents03_CellClick);
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "ID";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataGridViewTextBoxColumn5.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dataGridViewTextBoxColumn5.FillWeight = 35.53299F;
-            this.dataGridViewTextBoxColumn5.HeaderText = "Time";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.FillWeight = 104.467F;
-            this.dataGridViewTextBoxColumn6.HeaderText = "Subject";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.ReadOnly = true;
-            // 
             // FormMyMit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -558,7 +540,6 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonAddEvent);
-            this.Controls.Add(this.buttonUser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -572,18 +553,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents01)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents02)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents02)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents03)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button buttonUser;
         private System.Windows.Forms.Button buttonAddEvent;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel1;

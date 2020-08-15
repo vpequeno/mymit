@@ -50,6 +50,21 @@ namespace MyMit.controller
 
 
         /// <summary>
+        /// Verifica username e password do user
+        /// </summary>
+        /// <returns>
+        /// retorn true se o login funcionou
+        /// </returns>
+          public int verifyUserAccess(string username, string password)
+        {
+            List<User> usr = databaseService.GetData<User>("SELECT [Id],[IDProfilePicture],[Name],[Email],[Password],[IsAdmin],[Active],[ProfilePicture] FROM [dbo].[vUserInformation] WHERE [Active]=1 AND [Email]='" + username + "' AND [Password]='" + password + "'");
+            if (usr.Count > 0)
+                return ((User)usr.ElementAt(0)).id;
+            else
+                return 0;
+        }
+
+        /// <summary>
         /// Envia query para execuçao e recebe lista com todos os utilizadore
         /// </summary>
         /// <returns>

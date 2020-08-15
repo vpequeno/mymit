@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Media;
+using System.Net;
+using System.Net.Mail;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using MyMit.controller;
 using MyMit.custom;
 using MyMit.model;
 using MyMit.services;
-using NAudio.Wave;
+using Syncfusion.ComponentModel;
 
 namespace MyMit.view
 {
@@ -21,10 +25,12 @@ namespace MyMit.view
         private Meeting meeting = null;
         private List<MeetingInvite> guestList = null;
         private List<User> users = null;
-        private LoadingDialog loading = new LoadingDialog();
+        private LoadingDialog loading = null;
         private bool newMeeting = true;
         private bool isRecording = false;
         private int idUser;
+        private byte[] meeting_audio = null;
+        private SoundPlayer player = null;
 
         // Construtor utilizador para novas reunioes
         public MeetingView(int idUser)
@@ -64,6 +70,8 @@ namespace MyMit.view
             this.newMeeting = false;
             this.meeting = meeting;
             this.idUser = idUser;
+            this.buttonExportPdf.Visible = true;
+            this.buttonAttendeeList.Visible = true;
 
             // Instancia a classe controller
             this.controller = new MeetingController();
@@ -72,7 +80,7 @@ namespace MyMit.view
             loadUsersList();
 
             // Activa o botao de iniciar a reuniao
-            buttonStart.Visible = true;
+            this.groupBoxRecord.Visible = true;
 
             // Definir o campo de data/hora com o formato dia/mes/ano hora:minuto
             this.dateTimePickerStart.Format = DateTimePickerFormat.Custom;
@@ -91,21 +99,47 @@ namespace MyMit.view
 
 
             // Carrega valores da meeting
+            this.guestList = guestList;
             this.dateTimePickerStart.Value = this.meeting.startTime;
             this.textBoxSubject.Text = this.meeting.subject;
             this.textBoxAgenda.Text = this.meeting.agendaDescription;
             this.textBoxMeetingminutes.Text = this.meeting.meetingMinutes;
+            this.textBoxTranscription.Text = this.meeting.audioTranscription;
             selectDuration(this.meeting.durationMinutes);
             selectType(this.meeting.idType);
-            loadUsersWithSelected(guestList); // Carrega users na base de dados e marca os selecioandos
             loadTasks(tasks); // Carrega lista de tarefas
             this.panelEditMeeting.Visible = true;
 
+            // Carrega audio da reuniao
+            loadMeetingAudio();
+
+            // Mostra a coluna de presença na list ade convidados
+            showGuests();
+            loadUsersWithSelected(guestList); // Carrega users na base de dados e marca os selecioandos
+
         }
 
-        private void loadUsersList() 
+        private void loadUsersList()
         {
             this.users = controller.getUserList();
+        }
+
+        private void loadMeetingAudio() 
+        {
+            // Se existir audio para a reuniao, pega os Bytes e mostra o botao d eplay
+            if (this.meeting.audioFile > 0)
+            {
+                // Busca audio na base de dados
+                this.meeting_audio = this.controller.getFile(this.meeting.audioFile);
+
+                // Carrega audio na memoria e usa a classe SoundPlayer para gerir o play/stop
+                MemoryStream ms = new MemoryStream(meeting_audio);
+                player = new SoundPlayer(ms);
+
+                // Mostra botoes de play e stop. Caso nao haja audio este botao ficam invisiveis
+                buttonPlay.Visible = true;
+                buttonStopPlaying.Visible = true;
+            }
         }
 
         /// <summary>
@@ -131,16 +165,8 @@ namespace MyMit.view
                 comboBoxCell.Items.Add(users.ElementAt(i));
             }
 
-
         }
 
-        /// <summary>
-        /// Guarda as altereçoes na reuniao
-        /// </summary>
-        private void saveMeeting()
-        {
-
-        }
 
         /// <summary>
         /// Preenche a combox de tipos com os tipos de reuniao
@@ -193,13 +219,22 @@ namespace MyMit.view
                 this.dataGridViewGuests.Rows[pos].Cells[0].Value = users.ElementAt(i).id;
                 this.dataGridViewGuests.Rows[pos].Cells[2].Value = users.ElementAt(i).name;
 
+                DataGridViewCheckBoxCell chk = null;
                 for (int j = 0; j < guestList.Count; j++)
                 {
                     if (users.ElementAt(i).id == ((MeetingInvite)guestList.ElementAt(j)).idUser)
                     {
-                        DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)this.dataGridViewGuests.Rows[pos].Cells[1];
+                        // Marca convidados
+                        chk = (DataGridViewCheckBoxCell)this.dataGridViewGuests.Rows[pos].Cells[1];
                         chk.Value = true;
+
+                        // Marca presentes (que podem ou nao serem convidados)
+                        bool attended = ((MeetingInvite)guestList.ElementAt(j)).attended;
+
+                        chk = (DataGridViewCheckBoxCell)this.dataGridViewGuests.Rows[pos].Cells[3];
+                        chk.Value = attended;
                     }
+
                 }
             }
         }
@@ -239,6 +274,112 @@ namespace MyMit.view
         }
 
         /// <summary>
+        /// Funçao para envio de meeting invite
+        /// </summary>
+        public void sendMeetingInvite(string to_email, string subject, string text)
+        {
+
+            MailMessage msg = new MailMessage();
+            //Now we have to set the value to Mail message properties
+
+            //Note Please change it to correct mail-id to use this in your application
+            msg.From = new MailAddress("mymitnotifier@gmail.com", "MyMit Notifier");
+            msg.To.Add(new MailAddress(to_email));
+
+            msg.Subject = subject;
+            msg.Body = text;
+
+            // Now Contruct the ICS file using string builder
+            StringBuilder str = new StringBuilder();
+            str.AppendLine("BEGIN:VCALENDAR");
+            str.AppendLine("PRODID:-//Schedule a Meeting");
+            str.AppendLine("VERSION:2.0");
+            str.AppendLine("METHOD:REQUEST");
+            str.AppendLine("BEGIN:VEVENT");
+            str.AppendLine(string.Format("DTSTART:{0:yyyyMMddTHHmmssZ}", DateTime.Now.AddMinutes(+330)));
+            str.AppendLine(string.Format("DTSTAMP:{0:yyyyMMddTHHmmssZ}", DateTime.UtcNow));
+            str.AppendLine(string.Format("DTEND:{0:yyyyMMddTHHmmssZ}", DateTime.Now.AddMinutes(+660)));
+            str.AppendLine("LOCATION: " + this.Location);
+            str.AppendLine(string.Format("UID:{0}", Guid.NewGuid()));
+            str.AppendLine(string.Format("DESCRIPTION:{0}", msg.Body));
+            str.AppendLine(string.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", msg.Body));
+            str.AppendLine(string.Format("SUMMARY:{0}", msg.Subject));
+            str.AppendLine(string.Format("ORGANIZER:MAILTO:{0}", msg.From.Address));
+
+            str.AppendLine(string.Format("ATTENDEE;CN=\"{0}\";RSVP=TRUE:mailto:{1}", msg.To[0].DisplayName, msg.To[0].Address));
+
+            str.AppendLine("BEGIN:VALARM");
+            str.AppendLine("TRIGGER:-PT15M");
+            str.AppendLine("ACTION:DISPLAY");
+            str.AppendLine("DESCRIPTION:Reminder");
+            str.AppendLine("END:VALARM");
+            str.AppendLine("END:VEVENT");
+            str.AppendLine("END:VCALENDAR");
+
+            //Now sending a mail with attachment ICS file.                     
+            System.Net.Mail.SmtpClient smtpclient = new SmtpClient()
+            {
+                Port = 587,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Host = "smtp.gmail.com",
+                EnableSsl = true,
+                Credentials = new NetworkCredential("mymitnotifier@gmail.com", "1q2w3e4r5t&")
+            };
+
+
+            System.Net.Mime.ContentType contype = new System.Net.Mime.ContentType("text/calendar");
+            contype.Parameters.Add("method", "REQUEST");
+            contype.Parameters.Add("name", "Meeting.ics");
+            AlternateView avCal = AlternateView.CreateAlternateViewFromString(str.ToString(), contype);
+            msg.AlternateViews.Add(avCal);
+            smtpclient.Send(msg);
+        }
+
+        /// <summary>
+        /// Funçao para envio de emails
+        /// </summary>
+        private void sendEmail(string emailto, string subject, string text)
+        {
+
+            try
+            {
+                // Credentials
+                var credentials = new NetworkCredential("mymitnotifier@gmail.com", "1q2w3e4r5t&");
+
+                // Mail message
+                var mail = new MailMessage()
+                {
+                    From = new MailAddress("mymitnotifier@gmail.com"),
+                    Subject = subject,
+                    Body = text
+                };
+
+                mail.To.Add(new MailAddress(emailto));
+
+                // Smtp client
+                var client = new SmtpClient()
+                {
+                    Port = 587,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Host = "smtp.gmail.com",
+                    EnableSsl = true,
+                    Credentials = credentials
+                };
+
+                // Send it...         
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in sending email: " + ex.Message);
+                return;
+            }
+        }
+
+
+        /// <summary>
         /// Seleciona tipo da reuniao, caso a janela esteja sendo aberta para uma reuniao existente
         /// </summary>
         private void selectType(int typeId)
@@ -257,11 +398,11 @@ namespace MyMit.view
         /// <summary>
         /// Seleciona tempo de duraçao, caso a janela esteja sendo aberta para uma reuniao existente
         /// </summary>
-        private void selectDuration(int duration) 
+        private void selectDuration(int duration)
         {
-            for (int i=0;  i<this.comboDropDownDuration.Items.Count; i++) 
+            for (int i = 0; i < this.comboDropDownDuration.Items.Count; i++)
             {
-                if(Convert.ToInt32(this.comboDropDownDuration.SelectedItem.GetType().GetProperty("Value").GetValue(this.comboDropDownDuration.Items[i], null))==duration) 
+                if (Convert.ToInt32(this.comboDropDownDuration.SelectedItem.GetType().GetProperty("Value").GetValue(this.comboDropDownDuration.Items[i], null)) == duration)
                 {
                     this.comboDropDownDuration.SelectedIndex = i;
                     return;
@@ -323,9 +464,9 @@ namespace MyMit.view
         private bool validateInsetedData()
         {
             String errors = "";
-            
+
             // verifica se a data é no futuro
-            if (this.dateTimePickerStart.Value < DateTime.Now)
+            if (this.newMeeting && this.dateTimePickerStart.Value < DateTime.Now)
             {
                 errors += "- The meeting date should be in future.\n";
             }
@@ -360,17 +501,17 @@ namespace MyMit.view
 
 
             // Verifica se houve algum erro, se sim, mostra  amensagem e returna false
-            if (!errors.Equals("")) 
-            { 
-                MessageBox.Show("The following validation errors were found:\n"+errors, "Validation Error",  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            if (!errors.Equals(""))
+            {
+                MessageBox.Show("The following validation errors were found:\n" + errors, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 
             return true;
         }
 
-            // Eventos
-            private void comboDropDownDuration_SelectedIndexChanged(object sender, EventArgs e)
+        // Eventos
+        private void comboDropDownDuration_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (this.comboDropDownDuration.SelectedItem != null)
             {
@@ -379,7 +520,7 @@ namespace MyMit.view
             }
         }
 
-        private void startMeeting()
+        private void showGuests()
         {
             // Altera a lista de convidados para adicionar a coluna de presenca
             //
@@ -392,22 +533,8 @@ namespace MyMit.view
             int col = this.dataGridViewGuests.Columns.Add(chk);
             this.dataGridViewGuests.Columns[col].Width = 60;
 
-            // Remove users nao convidados
-            for (int i = 0; i < this.dataGridViewGuests.Rows.Count; i++)
-            {   // Essa porra remove por index...
-                if (this.dataGridViewGuests.Rows[i].Cells[1].Value == null)
-                {
-                    this.dataGridViewGuests.Rows.RemoveAt(i);
-                }
-            }
-
-            // Mostra o painel de gravaçao
-            this.groupBoxRecord.Visible = true;
-
-            // Gere visibilidad eods botoes
-            this.buttonStart.Enabled = false;
-            this.buttonClose.Enabled = false;
-            this.buttonStopMeeting.Visible = true;
+            // Ordena
+            this.dataGridViewGuests.Sort(this.dataGridViewGuests.Columns["ColumnSelected"], ListSortDirection.Descending);
 
         }
 
@@ -428,9 +555,7 @@ namespace MyMit.view
             this.groupBoxRecord.Visible = false;
 
             // Gere visibilidad eods botoes
-            this.buttonStart.Enabled = false;
             this.buttonClose.Enabled = true;
-            this.buttonStopMeeting.Visible = false;
 
         }
 
@@ -471,15 +596,46 @@ namespace MyMit.view
                     else
                     { // reuniao criada com sucesso. Mostra a mensagem e fecha o form de criaçao
                         MessageBox.Show("Meeting created with success!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Verifica utilizadores convidados e enviar email
+                        List<User> users = controller.getUserList();
+                        for (int i = 0; i < users.Count; i++)
+                        {
+                            int id = users.ElementAt(i).id;
+                            string name = users.ElementAt(i).name;
+                            string mail = users.ElementAt(i).email;
+
+
+                            foreach (DataGridViewRow row in this.dataGridViewGuests.Rows)
+                            {
+                                // Verfica se o utilizador foi convidado para a reuniao
+                                DataGridViewCheckBoxCell chkchecking = row.Cells[1] as DataGridViewCheckBoxCell;
+                                if (Convert.ToBoolean(chkchecking.Value) == true)
+                                {
+                                    if ((int)row.Cells[0].Value == id)
+                                    {
+                                        sendMeetingInvite(mail, this.textBoxSubject.Text, "You just got a meeting invite.");
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                        
                         this.Close();
                     }
                 }
-                else {
+                else
+                {
                     // Carrega string com o ID dos convidados para a reuniao, separados por virgula
+                    // e atualiza a lista de presentes
                     String selectedusersId = "";
                     bool FirstValue = true;
                     foreach (DataGridViewRow row in this.dataGridViewGuests.Rows)
                     {
+                        // Verfica se o utilizador foi convidado para a reuniao e adiciona na lista
                         DataGridViewCheckBoxCell chkchecking = row.Cells[1] as DataGridViewCheckBoxCell;
                         if (Convert.ToBoolean(chkchecking.Value) == true)
                         {
@@ -490,13 +646,19 @@ namespace MyMit.view
                             selectedusersId += row.Cells[0].Value;
                             FirstValue = false;
                         }
+
+                        // Verifica se o utilizador esta marcado como presente na reuniao a atualiza info
+                        DataGridViewCheckBoxCell chkattended = row.Cells[3] as DataGridViewCheckBoxCell;
+                        bool attended = Convert.ToBoolean(chkattended.Value);
+
+                        controller.saveAttendee(this.meeting.id, Convert.ToInt32(row.Cells[0].Value), attended);
                     }
 
                     bool execSucccess = false;
 
                     // Guarda dados da reuniao
                     execSucccess = controller.saveMeeting(meeting.id, ((MeetingType)comboBoxType.SelectedItem).id, dateTimePickerStart.Value, Int32.Parse(textBoxMinutes.Text), textBoxSubject.Text, textBoxAgenda.Text, selectedusersId, textBoxMeetingminutes.Text);
-
+                    execSucccess = controller.saveMeetingTranscription(meeting.id, this.textBoxTranscription.Text);
 
                     // Remove todas as tarefas e adiciona novamente
                     execSucccess = controller.removeAllTasks(meeting.id);
@@ -509,6 +671,9 @@ namespace MyMit.view
                         DateTime deadline = (DateTime)this.dataGridViewTasks.Rows[i].Cells[3].Value;
 
                         execSucccess = controller.addMeetingTask(meeting.id, taskuser, taskdesc, deadline);
+
+                        User task_user = controller.getUser(Convert.ToInt32(taskuser));
+                        sendEmail(task_user.email, "Recebeu uma tarefa", "A tarefa '"+ taskdesc + "' foi criada e associada a ti.");
                     }
 
                     if (!execSucccess) // Se houver erro na criaçao, na base de dados, mostramos uma mensagem de erro
@@ -557,12 +722,8 @@ namespace MyMit.view
 
         private void buttonExportPdf_Click(object sender, EventArgs e)
         {
-            new PdfService();
-        }
 
-        private void buttonStart_Click(object sender, EventArgs e)
-        {
-            startMeeting();
+            new PdfService().getMeetingSummary(this.textBoxSubject.Text, guestList, this.textBoxAgenda.Text, this.textBoxMeetingminutes.Text);
         }
 
 
@@ -571,7 +732,6 @@ namespace MyMit.view
             // inicia flag para o programa saber que a reuniao esta a ser gravada
             this.isRecording = true;
             this.pictureBoxRecord.Visible = true;
-            this.buttonStopMeeting.Enabled = false;
 
             // Inicia gravacao
             record("open new Type waveaudio Alias recsound", "", 0, 0);
@@ -597,21 +757,35 @@ namespace MyMit.view
             record("save recsound meeting_tmp.wav", "", 0, 0);
             record("close recsound", "", 0, 0);
 
- 
+            Thread.Sleep(1000);
+
+            // Converte o ficheiro de audio em bytes e guarda na base de dados
+            byte[] file = File.ReadAllBytes("meeting_tmp.wav");
+            int file_id = this.controller.saveMeetingAudio(this.meeting.id, file);
+            this.meeting.audioFile = file_id;
+            loadMeetingAudio();
+
             // ALtera o cursor para a seta normal e desbloqueia a janela da app
             this.Enabled = true;
             this.Cursor = Cursors.Default;
             this.pictureBoxRecord.Visible = false;
 
+            // Mostra os botoes de play e stop
+            buttonPlay.Visible = true;
+            buttonStopPlaying.Visible = true;
+
             // Escreve o texto transcrito do audio para o respectivo campo no fim do form
             // 
             AudioRecognition audio_to_text = new AudioRecognition();
 
-            new Thread(async delegate () {
+            new Thread(async delegate ()
+            {
                 await audio_to_text.convertAudioAsync("meeting_tmp.wav");
             }).Start();
 
-            new Thread(delegate () {
+            new Thread(delegate ()
+            {
+                loading = new LoadingDialog();
                 this.Invoke(new MethodInvoker(() => loading.Show(this)));
 
                 while (audio_to_text.result_text == null)
@@ -627,15 +801,68 @@ namespace MyMit.view
             // Libera o botao start e bloqueia o botao de stop
             this.buttonStop.Enabled = false;
             this.buttonRec.Enabled = true;
-            this.buttonStopMeeting.Enabled = true;
 
             // desliga flag para o programa saber que a reuniao nao esta mais a ser gravada
             this.isRecording = true;
         }
 
-        private void buttonStopMeeting_Click(object sender, EventArgs e)
+        private void buttonPlay_Click(object sender, EventArgs e)
         {
-            stopMeeting();
+            this.player.Play();
+        }
+
+        private void buttonStopPlaying_Click(object sender, EventArgs e)
+        {
+            this.player.Stop();
+        }
+
+        private void dataGridViewGuests_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!newMeeting) 
+            { 
+                // REGRA 1: Se uma pessoa que estiver participando da reuniao nao foi convidada previamente
+                // esta pessoa devera ser marcada como convidado assim que confirmada a sua presença
+
+                if (e.ColumnIndex == 3)
+                {
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)this.dataGridViewGuests.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                    if (chk.Value == null || (bool)chk.Value == false)
+                        chk.Value = true;
+                    else if ((bool)chk.Value == true)
+                        chk.Value = false;
+
+                    if ((bool)chk.Value)
+                    {
+                        chk = (DataGridViewCheckBoxCell)this.dataGridViewGuests.Rows[e.RowIndex].Cells[1];
+                        chk.Value = true;
+                    }
+                }
+
+                // REGRA 2: Se for retirado o convite de uma pessoa, a sua presença na reuniao sera removida tambem
+
+                if (e.ColumnIndex == 1)
+                {
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)this.dataGridViewGuests.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+                    if (chk.Value == null || (bool)chk.Value == false)
+                        chk.Value = true;
+                    else if ((bool)chk.Value == true)
+                        chk.Value = false;
+
+                    if (!(bool)chk.Value)
+                    {
+                        chk = (DataGridViewCheckBoxCell)this.dataGridViewGuests.Rows[e.RowIndex].Cells[3];
+                        chk.Value = false;
+                    }
+                }
+            }
+        }
+
+        private void buttonAttendeeList_Click(object sender, EventArgs e)
+        {
+            new PdfService().getAttendeeList(this.textBoxSubject.Text, guestList);
+
         }
     }
 }

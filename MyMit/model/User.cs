@@ -44,5 +44,9 @@ namespace MyMit.model
             this.active = false;
         }
 
+        public static explicit operator User(List<User> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

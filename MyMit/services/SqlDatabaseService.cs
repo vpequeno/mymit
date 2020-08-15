@@ -15,6 +15,7 @@ namespace MyMit.services
 	public class SqlDatabaseService
 	{
 		SqlConnection connection;
+		int inserted_id;
 
 		public SqlDatabaseService()
 		{
@@ -97,6 +98,7 @@ namespace MyMit.services
 				connection.Open();
 				SqlCommand command = new SqlCommand(databaseCommand, connection);
 				command.ExecuteNonQuery();
+
 			}
 			catch (Exception ex)
 			{
@@ -111,13 +113,26 @@ namespace MyMit.services
 			return true;
 		}
 
-		public void ReadFirstEntry(string databaseCommand)
+		/// <summary>
+		/// Executa comando de escrita de um ficheiro na base de dados
+		/// </summary>
+		/// <param name="databaseCommand">Commando SQL</param>
+		/// <returns>
+		/// Retorna valor booleano - true se sucesso
+		/// </returns>
+		public bool WriteFile(string databaseCommand, string file_name, byte[] file_content)
 		{
 			try
 			{
 				connection.Open();
 				SqlCommand command = new SqlCommand(databaseCommand, connection);
-				command.ExecuteScalar();
+				command.Parameters.AddWithValue("@name", file_name);
+				command.Parameters.AddWithValue("@file", file_content);
+				this.inserted_id = Convert.ToInt32(command.ExecuteScalar());
+			}
+			catch (Exception ex)
+			{
+				return false;
 			}
 			finally
 			{
@@ -125,8 +140,52 @@ namespace MyMit.services
 					connection.Close();
 			}
 
-
+			return true;
 		}
+
+		/// <summary>
+		/// Executa comando de escrita de um ficheiro na base de dados
+		/// </summary>
+		/// <param name="databaseCommand">Commando SQL</param>
+		/// <returns>
+		/// Retorna valor booleano - true se sucesso
+		/// </returns>
+		public byte[] ReadFile(string databaseCommand, int file_id)
+		{
+			byte[] file = null;
+
+			try
+			{
+				connection.Open();
+				SqlCommand command = new SqlCommand(databaseCommand, connection);
+				command.Parameters.AddWithValue("@id", file_id);
+
+				file = command.ExecuteScalar() as byte[];
+			}
+			catch (Exception ex)
+			{
+				return new byte[1];
+			}
+			finally
+			{
+				if (connection != null)
+					connection.Close();
+			}
+
+			return file;
+		}
+
+		/// <summary>
+		/// Retorna o ID da ultima inserçao
+		/// </summary>
+		/// <returns>
+		/// Retorna valor inteiro com ID do ultimo INSERT
+		/// </returns>
+		public int getInsertedID() 
+		{
+			return this.inserted_id;
+		}
+
 
 		/// <summary>
 		/// Transforma um data set em um objeto List do tipo T

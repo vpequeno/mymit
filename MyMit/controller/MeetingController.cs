@@ -57,6 +57,20 @@ namespace MyMit.controller
             return databaseService.GetData<User>("SELECT [Id],[IDProfilePicture],[Name],[Email],[Password],[IsAdmin],[Active],[ProfilePicture] FROM [dbo].[vUserInformation]");
         }
 
+
+
+        /// <summary>
+        /// Envia query para execuçao e recebe detalhes de um utilizador
+        /// </summary>
+        /// <returns>
+        /// Retorna objeto de um utilizador
+        /// </returns>
+        public User getUser(int is_user)
+        {
+            List<User> user_ls = databaseService.GetData<User>("SELECT [Id],[IDProfilePicture],[Name],[Email],[Password],[IsAdmin],[Active],[ProfilePicture] FROM [dbo].[vUserInformation] WHERE id="+is_user);
+            return user_ls.ElementAt(0);
+        }
+
         /// <summary>
         /// Adiciona uma nova reuniao
         /// </summary>
@@ -78,6 +92,60 @@ namespace MyMit.controller
         public bool saveMeeting(int idMeeting, int idType, DateTime start, int duration, String subject, String agenda, String invitedList, String minutes)
         {
             return databaseService.WriteData("EXEC [dbo].[saveMeeting] @idMeeting = " + idMeeting.ToString() + ", @idType = " + idType.ToString() + ", @startday = N'" + start.ToString("yyyy/MM/dd HH:mm") + "', @duration = " + duration + ", @subject = N'" + subject + "', @agenda = N'" + agenda + "', @inviteList = N'" + invitedList + "', @minutes = N'" + minutes + "'");
+        }
+
+        /// <summary>
+        /// Guarda audio transcrito
+        /// </summary>
+        /// <returns>
+        /// True ou False
+        /// </returns>
+        public bool saveMeetingTranscription(int idMeeting,  String transcription)
+        {
+            return databaseService.WriteData("UPDATE [dbo].[Meeting] SET [AudioTranscription]='" + transcription + "' WHERE [ID]= " + idMeeting.ToString());
+        }
+
+
+        /// <summary>
+        /// Adiciona audio da reniao
+        /// </summary>
+        /// <returns>
+        /// True ou False
+        /// </returns>
+        public int saveMeetingAudio(int idMeeting, byte[] buffer)
+        {
+            databaseService.WriteFile("INSERT INTO [dbo].[MeetingFile] ([Name] ,[FileContent]) OUTPUT INSERTED.ID VALUES (@name, @file)", "Meeting Recording", buffer);
+            int file_id = databaseService.getInsertedID();
+            databaseService.WriteData("UPDATE [dbo].[Meeting] SET [AudioFile]=" + file_id + " WHERE [ID]= " + idMeeting.ToString());
+
+            return file_id;
+        }
+
+
+        /// <summary>
+        /// Le o audio da reniao
+        /// </summary>
+        /// <returns>
+        /// Array de byte contendo o audio
+        /// </returns>
+        public byte[] getFile(int file_id)
+        {
+            return databaseService.ReadFile("SELECT FileContent FROM MeetingFile WHERE id=@id", file_id);
+        }
+
+        /// <summary>
+        /// Atualiza lista de presenca
+        /// </summary>
+        /// <returns>
+        /// True ou False
+        /// </returns>
+        public bool saveAttendee(int idMeeting, int idAttendee, bool attended)
+        {
+            int attended_value = 0;
+            if(attended)
+                attended_value = 1;
+
+            return databaseService.WriteData("[dbo].[updateAttendee] " + idMeeting + ", " + idAttendee + ", " + attended_value);
         }
 
         /// <summary>
