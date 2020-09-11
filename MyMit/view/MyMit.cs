@@ -81,7 +81,7 @@ namespace MyMit
         // Eventos
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.nextThreeDays = this.controller.GetNextDays(DateTime.Now);
+            this.nextThreeDays = this.controller.GetNextDays(DateTime.Now, this.userId);
             fillAgenda();
         }
 
@@ -92,27 +92,27 @@ namespace MyMit
 
         private void buttonToday_Click(object sender, EventArgs e)
         {
-            this.nextThreeDays = this.controller.GetNextDays(DateTime.Now);
+            this.nextThreeDays = this.controller.GetNextDays(DateTime.Now, this.userId);
             fillAgenda();
         }
 
         private void buttonNext_Click(object sender, EventArgs e)
         {
             DaySchedule lastDay = this.nextThreeDays.ElementAt(2); // Seleciona o ultimo dia no form
-            this.nextThreeDays = this.controller.GetNextDays(lastDay.day.AddDays(1)); // Adiciona 1 dia
+            this.nextThreeDays = this.controller.GetNextDays(lastDay.day.AddDays(1), this.userId); // Adiciona 1 dia
             fillAgenda(); // Preenche o form
         }
 
         private void buttonPrevious_Click(object sender, EventArgs e)
         {
             DaySchedule lastDay = this.nextThreeDays.ElementAt(0); // Seleciona o primeiro dia no form
-            this.nextThreeDays = this.controller.GetNextDays(lastDay.day.AddDays(-3)); // Subtrai 3 dias
+            this.nextThreeDays = this.controller.GetNextDays(lastDay.day.AddDays(-3), this.userId); // Subtrai 3 dias
             fillAgenda(); // Preenche o form
         }
 
         private void dateTimePicker_ValueChanged(object sender, EventArgs e)
         {
-            this.nextThreeDays = this.controller.GetNextDays(dateTimePicker.Value); // Busca dia selecionado pelo time picker (quick jump)
+            this.nextThreeDays = this.controller.GetNextDays(dateTimePicker.Value, this.userId); // Busca dia selecionado pelo time picker (quick jump)
             fillAgenda(); // Preenche o form
         }
 
@@ -124,7 +124,7 @@ namespace MyMit
         private void FormMyMit_Activated(object sender, EventArgs e)
         {
             if (this.nextThreeDays != null) {
-                this.nextThreeDays = this.controller.GetNextDays(dateTimePicker.Value);
+                this.nextThreeDays = this.controller.GetNextDays(dateTimePicker.Value, this.userId);
                 fillAgenda();
             }
         }

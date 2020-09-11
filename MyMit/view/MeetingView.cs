@@ -572,7 +572,7 @@ namespace MyMit.view
                 if (this.newMeeting)
                 {
                     // Carrega string com o ID dos convidados para a reuniao, separados por virgula
-                    String selectedusersId = "";
+                    String selectedusersId = this.idUser.ToString() + ", ";
                     bool FirstValue = true;
                     foreach (DataGridViewRow row in this.dataGridViewGuests.Rows)
                     {

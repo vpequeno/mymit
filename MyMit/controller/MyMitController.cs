@@ -28,7 +28,7 @@ namespace MyMit.controller
         /// <returns>
         /// Retorna uma lista com DaySchedule
         /// </returns>
-        public LinkedList<DaySchedule> GetNextDays(DateTime startDate)
+        public LinkedList<DaySchedule> GetNextDays(DateTime startDate, int id_user)
         {
             LinkedList<DaySchedule> nextDays = new LinkedList<DaySchedule>();
 
@@ -39,7 +39,7 @@ namespace MyMit.controller
                 DateTime dayToFetch = startDate.AddDays(i);
 
                 // Busca lista de reunioes na base de dados para um determinado dia
-                List<Meeting> meetings = getMeetingList(dayToFetch);
+                List<Meeting> meetings = getMeetingList(dayToFetch, id_user);
 
                 // Adiciona item na lista de reunioes do dia especificado
                 nextDays.AddLast(new DaySchedule(dayToFetch, meetings));
@@ -70,9 +70,9 @@ namespace MyMit.controller
         /// <returns>
         /// Retorna uma lista com todos as reunioes de um determinado dia
         /// </returns>
-        public List<Meeting> getMeetingList(DateTime dayToFetch)
+        public List<Meeting> getMeetingList(DateTime dayToFetch, int id_user)
         {
-            return this.databaseService.GetData<Meeting>("SELECT [ID],[IDType] ,[IDOwner],[StartTime],[DurationMinutes],[Subject],[AgendaDescription],[MeetingMinutes],[AudioFile] ,[AudioTranscription],[SignatureFile],[Closed] FROM [dbo].[Meeting]  WHERE [StartTime]  BETWEEN CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE) AND DATEADD(DAY, 1, CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE))");
+            return this.databaseService.GetData<Meeting>("SELECT m.[ID],m.[IDType] ,m.[IDOwner],m.[StartTime],m.[DurationMinutes],m.[Subject],m.[AgendaDescription],m.[MeetingMinutes],m.[AudioFile] ,m.[AudioTranscription],m.[SignatureFile],m.[Closed] FROM [dbo].[Meeting] m INNER JOIN [MyMit].[dbo].[MeetingInvite] mi ON m.ID=mi.IdMeeting WHERE mi.IdUser=" + id_user.ToString() + " AND [StartTime]  BETWEEN CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE) AND DATEADD(DAY, 1, CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE))");
         }
 
         /// <summary>

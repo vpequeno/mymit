@@ -127,16 +127,18 @@ namespace MyMit.services
 
                 for (int j = 0; j < guestList.Count; j++)
                 {
-                    line_position = line_position + 30;
-                    gfx.DrawString(name+" ____________________________________________________-", font_body, XBrushes.DarkSlateGray, 0, line_position);
-
+                    if (id == ((MeetingInvite)guestList.ElementAt(j)).idUser)
+                    { 
+                        line_position = line_position + 30;
+                        gfx.DrawString(name + " ________________________________________________", font_body, XBrushes.DarkSlateGray, 0, line_position);
+                    }
                 }
             }
 
-
+            DateTime aDate = DateTime.Now;
 
             // Guarda o documento
-            const string filename = "AttendeeList.pdf";
+            string filename = "AttendeeList_" + aDate.ToString("MMddyyyyhhmmtt") + "_.pdf";
             document.Save(filename);
 
             // Abre o documento
