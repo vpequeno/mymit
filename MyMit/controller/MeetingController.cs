@@ -123,6 +123,21 @@ namespace MyMit.controller
 
 
         /// <summary>
+        /// Adiciona audio da reniao
+        /// </summary>
+        /// <returns>
+        /// True ou False
+        /// </returns>
+        public int saveMeetingAttendeeList(int idMeeting, byte[] buffer)
+        {
+            databaseService.WriteFile("INSERT INTO [dbo].[MeetingFile] ([Name] ,[FileContent]) OUTPUT INSERTED.ID VALUES (@name, @file)", "Attendee List", buffer);
+            int file_id = databaseService.getInsertedID();
+            databaseService.WriteData("UPDATE [dbo].[Meeting] SET [SignatureFile]=" + file_id + " WHERE [ID]= " + idMeeting.ToString());
+
+            return file_id;
+        }
+
+        /// <summary>
         /// Le o audio da reniao
         /// </summary>
         /// <returns>

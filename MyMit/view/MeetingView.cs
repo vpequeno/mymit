@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -861,7 +862,23 @@ namespace MyMit.view
 
         private void buttonAttendeeList_Click(object sender, EventArgs e)
         {
-            new PdfService().getAttendeeList(this.textBoxSubject.Text, guestList);
+            // Caso nao exista uma lista na base de dados (que tenha sido feito upload), cria uma lista nova, baseada nos convidados da reuniao 
+            if (this.meeting.signatureFile == 0)
+                new PdfService().getAttendeeList(this.textBoxSubject.Text, guestList);
+            else 
+            { // Caso ja exista uma lista na base de dados, retorna a mesma
+                // Busca audio na base de dados
+                byte[] attendee_file = this.controller.getFile(this.meeting.signatureFile);
+
+                // Cria ficheiro baseado nos bytes que foram extraidos da base de dados
+                DateTime aDate = DateTime.Now;
+
+                string filename = "AttendeeList_" + aDate.ToString("MMddyyyyhhmmtt") + "_.pdf";
+                System.IO.File.WriteAllBytes(filename, attendee_file);
+
+                // Abre o ficheiro
+                Process.Start(filename);
+            }
 
         }
 
@@ -935,6 +952,25 @@ namespace MyMit.view
 
             // confirma envio
             MessageBox.Show("Meeting Minutes sent via e-mail.");
+        }
+
+        private void buttonUploadAttendeeList_Click(object sender, EventArgs e)
+        {
+            // Abre o dialog de seleccao de ficheiros
+            OpenFileDialog choofdlog = new OpenFileDialog();
+            choofdlog.FilterIndex = 1;
+            choofdlog.Multiselect = false;
+            string file_path = "";
+
+            if (choofdlog.ShowDialog() == DialogResult.OK)
+            {
+                file_path = choofdlog.FileName;
+
+                // Converte o ficheiro  em bytes e guarda na base de dados
+                byte[] file = File.ReadAllBytes(file_path);
+                int file_id = this.controller.saveMeetingAttendeeList(this.meeting.id, file);
+                this.meeting.signatureFile = file_id;
+            }
         }
     }
 }

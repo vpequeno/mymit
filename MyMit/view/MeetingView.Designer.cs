@@ -71,7 +71,7 @@
             this.buttonStopPlaying = new System.Windows.Forms.Button();
             this.buttonAttendeeList = new System.Windows.Forms.Button();
             this.buttonSendMinutes = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonUploadAttendeeList = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewGuests)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
             this.panelEditMeeting.SuspendLayout();
@@ -185,7 +185,7 @@
             this.buttonSave.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Green;
             this.buttonSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonSave.Location = new System.Drawing.Point(607, 70);
+            this.buttonSave.Location = new System.Drawing.Point(612, 70);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(52, 23);
             this.buttonSave.TabIndex = 17;
@@ -198,7 +198,7 @@
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonClose.FlatAppearance.BorderSize = 2;
             this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.buttonClose.Location = new System.Drawing.Point(665, 70);
+            this.buttonClose.Location = new System.Drawing.Point(670, 70);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(52, 23);
             this.buttonClose.TabIndex = 18;
@@ -240,7 +240,7 @@
             this.dataGridViewGuests.RowHeadersVisible = false;
             this.dataGridViewGuests.RowHeadersWidth = 82;
             this.dataGridViewGuests.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewGuests.Size = new System.Drawing.Size(388, 91);
+            this.dataGridViewGuests.Size = new System.Drawing.Size(393, 91);
             this.dataGridViewGuests.TabIndex = 21;
             this.dataGridViewGuests.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewGuests_CellContentClick);
             // 
@@ -445,7 +445,7 @@
             this.buttonExportPdf.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.buttonExportPdf.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonExportPdf.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonExportPdf.Location = new System.Drawing.Point(421, 171);
+            this.buttonExportPdf.Location = new System.Drawing.Point(426, 171);
             this.buttonExportPdf.Name = "buttonExportPdf";
             this.buttonExportPdf.Size = new System.Drawing.Size(56, 45);
             this.buttonExportPdf.TabIndex = 29;
@@ -485,7 +485,7 @@
             this.groupBoxRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxRecord.Controls.Add(this.buttonRec);
             this.groupBoxRecord.Controls.Add(this.buttonStop);
-            this.groupBoxRecord.Location = new System.Drawing.Point(607, 220);
+            this.groupBoxRecord.Location = new System.Drawing.Point(612, 220);
             this.groupBoxRecord.Name = "groupBoxRecord";
             this.groupBoxRecord.Size = new System.Drawing.Size(146, 55);
             this.groupBoxRecord.TabIndex = 32;
@@ -497,7 +497,7 @@
             // 
             this.pictureBoxRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxRecord.Image = global::MyMit.Properties.Resources.recording;
-            this.pictureBoxRecord.Location = new System.Drawing.Point(557, 228);
+            this.pictureBoxRecord.Location = new System.Drawing.Point(559, 60);
             this.pictureBoxRecord.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxRecord.Name = "pictureBoxRecord";
             this.pictureBoxRecord.Size = new System.Drawing.Size(46, 45);
@@ -517,7 +517,7 @@
             this.buttonPlay.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.buttonPlay.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonPlay.Location = new System.Drawing.Point(607, 171);
+            this.buttonPlay.Location = new System.Drawing.Point(612, 171);
             this.buttonPlay.Name = "buttonPlay";
             this.buttonPlay.Size = new System.Drawing.Size(67, 45);
             this.buttonPlay.TabIndex = 35;
@@ -537,7 +537,7 @@
             this.buttonStopPlaying.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.buttonStopPlaying.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonStopPlaying.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonStopPlaying.Location = new System.Drawing.Point(680, 171);
+            this.buttonStopPlaying.Location = new System.Drawing.Point(685, 171);
             this.buttonStopPlaying.Name = "buttonStopPlaying";
             this.buttonStopPlaying.Size = new System.Drawing.Size(73, 45);
             this.buttonStopPlaying.TabIndex = 36;
@@ -557,7 +557,7 @@
             this.buttonAttendeeList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.buttonAttendeeList.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonAttendeeList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonAttendeeList.Location = new System.Drawing.Point(483, 171);
+            this.buttonAttendeeList.Location = new System.Drawing.Point(488, 171);
             this.buttonAttendeeList.Name = "buttonAttendeeList";
             this.buttonAttendeeList.Size = new System.Drawing.Size(58, 45);
             this.buttonAttendeeList.TabIndex = 37;
@@ -577,41 +577,41 @@
             this.buttonSendMinutes.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.buttonSendMinutes.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonSendMinutes.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSendMinutes.Location = new System.Drawing.Point(421, 217);
+            this.buttonSendMinutes.Location = new System.Drawing.Point(426, 217);
             this.buttonSendMinutes.Name = "buttonSendMinutes";
             this.buttonSendMinutes.Size = new System.Drawing.Size(56, 45);
             this.buttonSendMinutes.TabIndex = 38;
-            this.buttonSendMinutes.Text = "Send Minutes";
+            this.buttonSendMinutes.Text = "E-mail Minutes";
             this.buttonSendMinutes.UseVisualStyleBackColor = false;
             this.buttonSendMinutes.Click += new System.EventHandler(this.buttonSendMinutes_Click);
             // 
-            // button1
+            // buttonUploadAttendeeList
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(483, 217);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(58, 45);
-            this.button1.TabIndex = 39;
-            this.button1.Text = "Upload Attendees";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Visible = false;
+            this.buttonUploadAttendeeList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonUploadAttendeeList.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.buttonUploadAttendeeList.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.buttonUploadAttendeeList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonUploadAttendeeList.FlatAppearance.BorderSize = 0;
+            this.buttonUploadAttendeeList.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.buttonUploadAttendeeList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.buttonUploadAttendeeList.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buttonUploadAttendeeList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonUploadAttendeeList.Location = new System.Drawing.Point(488, 217);
+            this.buttonUploadAttendeeList.Name = "buttonUploadAttendeeList";
+            this.buttonUploadAttendeeList.Size = new System.Drawing.Size(58, 45);
+            this.buttonUploadAttendeeList.TabIndex = 39;
+            this.buttonUploadAttendeeList.Text = "Upload Attendees";
+            this.buttonUploadAttendeeList.UseVisualStyleBackColor = false;
+            this.buttonUploadAttendeeList.Click += new System.EventHandler(this.buttonUploadAttendeeList_Click);
             // 
             // MeetingView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(780, 450);
+            this.ClientSize = new System.Drawing.Size(776, 446);
             this.ControlBox = false;
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonUploadAttendeeList);
             this.Controls.Add(this.buttonSendMinutes);
             this.Controls.Add(this.buttonAttendeeList);
             this.Controls.Add(this.buttonStopPlaying);
@@ -699,6 +699,6 @@
         private System.Windows.Forms.Button buttonStopPlaying;
         private System.Windows.Forms.Button buttonAttendeeList;
         private System.Windows.Forms.Button buttonSendMinutes;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonUploadAttendeeList;
     }
 }
