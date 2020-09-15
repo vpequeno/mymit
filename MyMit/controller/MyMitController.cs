@@ -23,6 +23,26 @@ namespace MyMit.controller
 
 
         /// <summary>
+        /// Retorna lista com todas as reunioes que tem a palavra filtro
+        /// </summary>
+        /// <returns>
+        /// Retorna uma lista com DaySchedule
+        /// </returns>
+        public LinkedList<DaySchedule> SearchMeetings(int id_user, string filter)
+        {
+            LinkedList<DaySchedule> nextDays = new LinkedList<DaySchedule>();
+
+            // Busca lista de reunioes na base de dados para um determinado dia
+            List<Meeting> meetings = getMeetingFiltered(id_user, filter);
+
+            // Adiciona item na lista de reunioes do dia especificado
+            nextDays.AddLast(new DaySchedule(DateTime.Now, meetings));
+
+            return nextDays;
+        }
+
+
+        /// <summary>
         /// Retorna lista com os proximos 3 dias de reuniao
         /// </summary>
         /// <returns>
@@ -65,7 +85,7 @@ namespace MyMit.controller
         }
 
         /// <summary>
-        /// Envia query para execuçao e recebe lista com todos os utilizadore
+        /// Envia query para execuçao e recebe lista com todas as reunioes
         /// </summary>
         /// <returns>
         /// Retorna uma lista com todos as reunioes de um determinado dia
@@ -73,6 +93,17 @@ namespace MyMit.controller
         public List<Meeting> getMeetingList(DateTime dayToFetch, int id_user)
         {
             return this.databaseService.GetData<Meeting>("SELECT m.[ID],m.[IDType] ,m.[IDOwner],m.[StartTime],m.[DurationMinutes],m.[Subject],m.[AgendaDescription],m.[MeetingMinutes],m.[AudioFile] ,m.[AudioTranscription],m.[SignatureFile],m.[Closed] FROM [dbo].[Meeting] m INNER JOIN [MyMit].[dbo].[MeetingInvite] mi ON m.ID=mi.IdMeeting WHERE mi.IdUser=" + id_user.ToString() + " AND [StartTime]  BETWEEN CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE) AND DATEADD(DAY, 1, CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE))");
+        }
+
+        /// <summary>
+        /// Envia query para execuçao e recebe lista com as reunioes filtradas
+        /// </summary>
+        /// <returns>
+        /// Retorna uma lista com todos as reunioes por keyword
+        /// </returns>
+        public List<Meeting> getMeetingFiltered(int id_user, string filter)
+        {
+            return this.databaseService.GetData<Meeting>("SELECT m.[ID],m.[IDType] ,m.[IDOwner],m.[StartTime],m.[DurationMinutes],m.[Subject],m.[AgendaDescription],m.[MeetingMinutes],m.[AudioFile] ,m.[AudioTranscription],m.[SignatureFile],m.[Closed] FROM [dbo].[Meeting] m INNER JOIN [MyMit].[dbo].[MeetingInvite] mi ON m.ID=mi.IdMeeting WHERE mi.IdUser=" + id_user.ToString() + "  and (m.[Subject] like '%" + filter + "%' OR m.[AgendaDescription] like '%" + filter + "%' OR m.[MeetingMinutes] like '%" + filter + "%')");
         }
 
         /// <summary>

@@ -167,5 +167,10 @@ namespace MyMit
                 _ = new MeetingView(this.userId, meetings.ElementAt(0), tasks, guestList).ShowDialog();
             }
         }
+
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            _ = new FormSearchmeeting(this.userId).ShowDialog(this);
+        }
     }
 }

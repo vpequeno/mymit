@@ -170,6 +170,12 @@
     <Compile Include="services\SampleAggregator.cs" />
     <Compile Include="services\SavingWaveProvider.cs" />
     <Compile Include="services\SqlDatabaseService.cs" />
+    <Compile Include="view\SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="view\SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="view\LoadingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +206,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="view\SearchForm.resx">
+      <DependentUpon>SearchForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="view\LoadingDialog.resx">
       <DependentUpon>LoadingDialog.cs</DependentUpon>
@@ -244,6 +253,7 @@
     <None Include="Resources\pdf_icon.png" />
     <None Include="Resources\recording.png" />
     <None Include="Resources\loading.gif" />
+    <None Include="Resources\search-icon.png" />
     <Content Include="view\img\app_ico.ico" />
     <Content Include="view\img\app_logo.png" />
     <Content Include="view\img\btn_next.png" />

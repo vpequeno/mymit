@@ -59,14 +59,15 @@
             this.labelWeekDay03 = new System.Windows.Forms.Label();
             this.labelDay03 = new System.Windows.Forms.Label();
             this.labelMonth03 = new System.Windows.Forms.Label();
+            this.labelYear = new System.Windows.Forms.Label();
+            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonSearch = new System.Windows.Forms.Button();
             this.buttonToday = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonPrevious = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.buttonAddEvent = new System.Windows.Forms.Button();
-            this.labelYear = new System.Windows.Forms.Label();
-            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewEvents01)).BeginInit();
             this.panel2.SuspendLayout();
@@ -412,6 +413,53 @@
             this.labelMonth03.TabIndex = 13;
             this.labelMonth03.Text = "Maio";
             // 
+            // labelYear
+            // 
+            this.labelYear.AutoSize = true;
+            this.labelYear.BackColor = System.Drawing.Color.Transparent;
+            this.labelYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelYear.Location = new System.Drawing.Point(20, 83);
+            this.labelYear.Name = "labelYear";
+            this.labelYear.Size = new System.Drawing.Size(136, 55);
+            this.labelYear.TabIndex = 12;
+            this.labelYear.Text = "2020";
+            // 
+            // dateTimePicker
+            // 
+            this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker.Location = new System.Drawing.Point(634, 110);
+            this.dateTimePicker.Name = "dateTimePicker";
+            this.dateTimePicker.Size = new System.Drawing.Size(104, 20);
+            this.dateTimePicker.TabIndex = 13;
+            this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(562, 114);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Quick Jump:";
+            // 
+            // buttonSearch
+            // 
+            this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSearch.BackColor = System.Drawing.Color.Transparent;
+            this.buttonSearch.BackgroundImage = global::MyMit.Properties.Resources.search_icon;
+            this.buttonSearch.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonSearch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSearch.FlatAppearance.BorderSize = 0;
+            this.buttonSearch.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.buttonSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.buttonSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonSearch.Location = new System.Drawing.Point(632, 5);
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.Size = new System.Drawing.Size(66, 53);
+            this.buttonSearch.TabIndex = 15;
+            this.buttonSearch.UseVisualStyleBackColor = false;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
+            // 
             // buttonToday
             // 
             this.buttonToday.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -488,47 +536,19 @@
             this.buttonAddEvent.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.buttonAddEvent.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.buttonAddEvent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonAddEvent.Location = new System.Drawing.Point(704, 3);
+            this.buttonAddEvent.Location = new System.Drawing.Point(702, 5);
             this.buttonAddEvent.Name = "buttonAddEvent";
             this.buttonAddEvent.Size = new System.Drawing.Size(66, 53);
             this.buttonAddEvent.TabIndex = 3;
             this.buttonAddEvent.UseVisualStyleBackColor = false;
             this.buttonAddEvent.Click += new System.EventHandler(this.buttonAddEvent_Click);
             // 
-            // labelYear
-            // 
-            this.labelYear.AutoSize = true;
-            this.labelYear.BackColor = System.Drawing.Color.Transparent;
-            this.labelYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelYear.Location = new System.Drawing.Point(20, 83);
-            this.labelYear.Name = "labelYear";
-            this.labelYear.Size = new System.Drawing.Size(136, 55);
-            this.labelYear.TabIndex = 12;
-            this.labelYear.Text = "2020";
-            // 
-            // dateTimePicker
-            // 
-            this.dateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker.Location = new System.Drawing.Point(634, 110);
-            this.dateTimePicker.Name = "dateTimePicker";
-            this.dateTimePicker.Size = new System.Drawing.Size(104, 20);
-            this.dateTimePicker.TabIndex = 13;
-            this.dateTimePicker.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(562, 114);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "Quick Jump:";
-            // 
             // FormMyMit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(772, 471);
+            this.Controls.Add(this.buttonSearch);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dateTimePicker);
             this.Controls.Add(this.labelYear);
@@ -596,6 +616,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.Button buttonSearch;
     }
 }
 
