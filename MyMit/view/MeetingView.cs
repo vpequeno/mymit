@@ -864,5 +864,77 @@ namespace MyMit.view
             new PdfService().getAttendeeList(this.textBoxSubject.Text, guestList);
 
         }
+
+        private void buttonSendMinutes_Click(object sender, EventArgs e)
+        {
+
+            MailMessage msg = new MailMessage();
+            //Now we have to set the value to Mail message properties
+
+            //Note Please change it to correct mail-id to use this in your application
+            msg.From = new MailAddress("mymitnotifier@gmail.com", "MyMit Notifier");
+            //msg.To.Add(new MailAddress("lidiane.21@hotmail.com"));
+
+            msg.Subject = "[Meeting Minutes] " + this.textBoxSubject.Text;
+
+            // Formata a ata
+            // Titulo
+            string text = "Invited:\n";
+
+            // Lista de presentes
+            List<User> users = controller.getUserList();
+            for (int i = 0; i < users.Count; i++)
+            {
+                int id = users.ElementAt(i).id;
+                string name = users.ElementAt(i).name;
+
+                for (int j = 0; j < guestList.Count; j++)
+                {
+                    if (id == ((MeetingInvite)guestList.ElementAt(j)).idUser)
+                    {
+                        string user_attended_meeting = "Missed";
+                        if (((MeetingInvite)guestList.ElementAt(j)).attended)
+                            user_attended_meeting = "Attended";
+
+                        text += " - " + name + " (" + user_attended_meeting + ")\n";
+                        msg.To.Add(new MailAddress(users.ElementAt(i).email));
+
+                    }
+
+                }
+            }
+            text += "\n\n";
+
+            // Agenda
+            text += "Agenda:\n";
+            text += this.textBoxAgenda.Text + "\n";
+            text += "\n\n";
+
+            // Meeting Minutes
+            text += "Minutes:\n";
+            text += this.textBoxMeetingminutes.Text + "\n";
+            text += "\n\n";
+
+            // Adicionando mensage ao email
+            msg.Body = text;
+
+           
+            // Define paramentreos               
+            System.Net.Mail.SmtpClient smtpclient = new SmtpClient()
+            {
+                Port = 587,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Host = "smtp.gmail.com",
+                EnableSsl = true,
+                Credentials = new NetworkCredential("mymitnotifier@gmail.com", "1q2w3e4r5t&")
+            };
+
+            // Envia email
+            smtpclient.Send(msg);
+
+            // confirma envio
+            MessageBox.Show("Meeting Minutes sent via e-mail.");
+        }
     }
 }

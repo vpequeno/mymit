@@ -57,9 +57,9 @@ namespace MyMit.services
                 {
                     if (id == ((MeetingInvite)guestList.ElementAt(j)).idUser)
                     {
-                        string user_attended_meeting = "Faltou";
+                        string user_attended_meeting = "Missed";
                         if(((MeetingInvite)guestList.ElementAt(j)).attended)
-                            user_attended_meeting = "Presente";
+                            user_attended_meeting = "Attended";
 
                         line_position = line_position+30;
                         gfx.DrawString(" - " + name + " ("+ user_attended_meeting + ")", font_body, XBrushes.DarkSlateGray, 0, line_position);
