@@ -72,6 +72,8 @@ namespace MyMit.view
             this.idUser = idUser;
             this.buttonExportPdf.Visible = true;
             this.buttonAttendeeList.Visible = true;
+            this.buttonSendMinutes.Visible = true;
+            this.buttonUploadAttendeeList.Visible = true;
 
             // Instancia a classe controller
             this.controller = new MeetingController();
