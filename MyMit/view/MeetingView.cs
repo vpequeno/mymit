@@ -71,6 +71,7 @@ namespace MyMit.view
             this.meeting = meeting;
             this.idUser = idUser;
             this.buttonExportPdf.Visible = true;
+            this.buttonDelete.Visible = true;
             this.buttonAttendeeList.Visible = true;
             this.buttonSendMinutes.Visible = true;
             this.buttonUploadAttendeeList.Visible = true;
@@ -971,6 +972,12 @@ namespace MyMit.view
                 int file_id = this.controller.saveMeetingAttendeeList(this.meeting.id, file);
                 this.meeting.signatureFile = file_id;
             }
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            controller.deleteNewMeeting(this.meeting.id);
+            this.Close();
         }
     }
 }

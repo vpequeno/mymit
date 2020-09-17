@@ -84,6 +84,17 @@ namespace MyMit.controller
 
 
         /// <summary>
+        /// Remove reuniao
+        /// </summary>
+        /// <returns>
+        /// True ou False
+        /// </returns>
+        public bool deleteNewMeeting(int idMeeting)
+        {
+            return databaseService.WriteData("DELETE FROM [dbo].[Meeting] WHERE ID=" + idMeeting.ToString());
+        }
+
+        /// <summary>
         /// Guarda alteraçoes uma reuniao
         /// </summary>
         /// <returns>
