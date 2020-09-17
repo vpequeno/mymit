@@ -92,7 +92,7 @@ namespace MyMit.controller
         /// </returns>
         public List<Meeting> getMeetingList(DateTime dayToFetch, int id_user)
         {
-            return this.databaseService.GetData<Meeting>("SELECT m.[ID],m.[IDType] ,m.[IDOwner],m.[StartTime],m.[DurationMinutes],m.[Subject],m.[AgendaDescription],m.[MeetingMinutes],m.[AudioFile] ,m.[AudioTranscription],m.[SignatureFile],m.[Closed] FROM [dbo].[Meeting] m INNER JOIN [MyMit].[dbo].[MeetingInvite] mi ON m.ID=mi.IdMeeting WHERE mi.IdUser=" + id_user.ToString() + " AND [StartTime]  BETWEEN CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE) AND DATEADD(DAY, 1, CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE))");
+            return this.databaseService.GetData<Meeting>("SELECT DISTINCT m.[ID],m.[IDType] ,m.[IDOwner],m.[StartTime],m.[DurationMinutes],m.[Subject],m.[AgendaDescription],m.[MeetingMinutes],m.[AudioFile] ,m.[AudioTranscription],m.[SignatureFile],m.[Closed] FROM [dbo].[Meeting] m INNER JOIN [MyMit].[dbo].[MeetingInvite] mi ON m.ID=mi.IdMeeting WHERE mi.IdUser=" + id_user.ToString() + " AND [StartTime]  BETWEEN CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE) AND DATEADD(DAY, 1, CAST(convert(varchar, '" + dayToFetch.ToString("yyyy/MM/dd") + "', 120) AS DATE))");
         }
 
         /// <summary>

@@ -298,10 +298,9 @@ namespace MyMit.view
             str.AppendLine("VERSION:2.0");
             str.AppendLine("METHOD:REQUEST");
             str.AppendLine("BEGIN:VEVENT");
-            str.AppendLine(string.Format("DTSTART:{0:yyyyMMddTHHmmssZ}", DateTime.Now.AddMinutes(+330)));
+            str.AppendLine(string.Format("DTSTART:{0:yyyyMMddTHHmmssZ}", this.dateTimePickerStart.Value));
             str.AppendLine(string.Format("DTSTAMP:{0:yyyyMMddTHHmmssZ}", DateTime.UtcNow));
-            str.AppendLine(string.Format("DTEND:{0:yyyyMMddTHHmmssZ}", DateTime.Now.AddMinutes(+660)));
-            str.AppendLine("LOCATION: " + this.Location);
+            str.AppendLine(string.Format("DTEND:{0:yyyyMMddTHHmmssZ}", this.dateTimePickerStart.Value.AddMinutes(+Int32.Parse(textBoxMinutes.Text))));
             str.AppendLine(string.Format("UID:{0}", Guid.NewGuid()));
             str.AppendLine(string.Format("DESCRIPTION:{0}", msg.Body));
             str.AppendLine(string.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", msg.Body));
